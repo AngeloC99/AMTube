@@ -8,11 +8,11 @@
 		<version>2.7.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>it.uniroma1.AMTube</groupId>
-	<artifactId>UserManagement</artifactId>
+	<groupId>it.uniroma1</groupId>
+	<artifactId>userManagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>UserManagement</name>
-	<description>UserManagement microservice for AMTube</description>
+	<name>userManagement</name>
+	<description>User Management microservice for AMTube</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -26,6 +26,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
