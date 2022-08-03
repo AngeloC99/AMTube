@@ -1,9 +1,9 @@
 # Running the Docker container
-From the terminal, go to the directory of the service.
+From the terminal, go to the directory of the service (superuser privileges may be necessary).
 ## To build the image
 
 ```bash
-sudo docker build -t user-management-docker .
+docker build -t user-management-docker .
 ```
 
 ## To run the container
