@@ -1,0 +1,14 @@
+// /videos
+//   /videos/:id
+// /users
+// /login
+// /register
+//   /users/:id
+// /subscriptions
+//   /subscriptions/:id
+//   /subscriptions/subscriber/:id
+//   /subscriptions/subscribedTo/:id
+// /videoNotifications
+//   /videoNotifications/:id
+//   /videoNotifications/publisher/:id
+//   /videoNotifications/video/:id
