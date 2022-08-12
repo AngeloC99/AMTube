@@ -1,6 +1,11 @@
 package AMTube.video.models;
 
-import java.util.Date;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import java.time.LocalDate;
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,9 +15,22 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long videoId;
-    private String writerUsername;
+    private Long publisherId;
+    private String publisherUsername;
     private String text;
-    private Date date;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate date;
+
+    public Comment() {}
+
+    public Comment(Long videoId, Long publisherId, String publisherUsername, String text) {
+        this.videoId = videoId;
+        this.publisherId = publisherId;
+        this.publisherUsername = publisherUsername;
+        this.text = text;
+        this.date = LocalDate.now();
+    }
 
     public Long getId() {
         return this.id;
@@ -30,12 +48,16 @@ public class Comment {
         this.videoId = videoId;
     }
 
-    public String getWriterUsername() {
-        return this.writerUsername;
+    public Long getPublisherId() { return publisherId; }
+
+    public void setPublisherId(Long publisherId) { this.publisherId = publisherId; }
+
+    public String getPublisherUsername() {
+        return this.publisherUsername;
     }
 
-    public void setWriterUsername(String writerUsername) {
-        this.writerUsername = writerUsername;
+    public void setPublisherUsername(String publisherUsername) {
+        this.publisherUsername = publisherUsername;
     }
 
     public String getText() {
@@ -46,35 +68,25 @@ public class Comment {
         this.text = text;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public Comment(Long videoId, String writerUsername, String text, Date date) {
-        this.videoId = videoId;
-        this.writerUsername = writerUsername;
-        this.text = text;
-        this.date = date;
-    }
     @Override
     public boolean equals(Object o) {
-  
-      if (this == o)
-        return true;
-      if (!(o instanceof Comment))
-        return false;
-      Comment comment = (Comment) o;
-      return Objects.equals(this.id, comment.id) && Objects.equals(this.videoId, comment.videoId)
-          && Objects.equals(this.text, comment.text) && Objects.equals(this.date, comment.date);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(id, comment.id) && Objects.equals(videoId, comment.videoId) && Objects.equals(publisherId, comment.publisherId) && Objects.equals(publisherUsername, comment.publisherUsername) && Objects.equals(text, comment.text) && Objects.equals(date, comment.date);
     }
-    
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, videoId, writerUsername, text, date);
+        return Objects.hash(id, videoId, publisherId, publisherUsername, text, date);
     }
 
     @Override
@@ -82,7 +94,8 @@ public class Comment {
         return "Comment{" +
                 "id=" + String.valueOf(id) +
                 ", videoId='" + String.valueOf(videoId) + '\'' +
-                ", writerUsername='" + writerUsername + '\'' +
+                ", publisherId ='" + publisherId + '\'' +
+                ", publisherUsername ='" + publisherUsername + '\'' +
                 ", text='" + text + '\'' +
                 ", date='" + date.toString() + '\'' +
                 '}';

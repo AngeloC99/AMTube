@@ -1,8 +1,13 @@
 package AMTube.video.models;
 
-import java.util.Date;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import java.time.LocalDate;
+import java.util.*;
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Video {
@@ -13,13 +18,26 @@ public class Video {
     private String description;
     private int likes;
     private int dislikes;
-    private Date date;
-    private String publisher;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate date;
+    private Long publisherId;
     @Lob
     private byte[] thumbnail;
-
     @Lob
     private byte[] data;
+    public Video() {}
+
+    public Video(String title, String description, int likes, int dislikes, LocalDate date, Long publisherId, byte[] thumbnail, byte[] data) {
+        this.title = title;
+        this.description = description;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.date = LocalDate.now();
+        this.publisherId = publisherId;
+        this.thumbnail= thumbnail;
+        this.data = data;
+    }
 
     public Long getId() {
         return this.id;
@@ -61,21 +79,17 @@ public class Video {
         this.dislikes = dislikes;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getPublisher() {
-        return this.publisher;
-    }
+    public Long getPublisherId() { return publisherId; }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
+    public void setPublisherId(Long publisherId) { this.publisherId = publisherId; }
 
     public byte[] getThumbnail() {
         return this.thumbnail;
@@ -93,33 +107,21 @@ public class Video {
         this.data = data;
     }
 
-    public Video(String title, String description, int likes, int dislikes, Date date, String publisher, byte[] thumbnail, byte[] data) {
-        this.title = title;
-        this.description = description;
-        this.likes = likes;
-        this.dislikes = dislikes;
-        this.date = date;
-        this.publisher = publisher;
-        this.thumbnail= thumbnail;
-        this.data = data;
-    }
+
     @Override
     public boolean equals(Object o) {
-  
-      if (this == o)
-        return true;
-      if (!(o instanceof Video))
-        return false;
-      Video video = (Video) o;
-      return Objects.equals(this.id, video.id) && Objects.equals(this.title, video.title)
-          && Objects.equals(this.description, video.description) && Objects.equals(this.date, video.date)
-          && Objects.equals(this.likes, video.likes) && Objects.equals(this.dislikes, video.dislikes) 
-          && Objects.equals(this.publisher, video.publisher) && Objects.equals(this.thumbnail, video.thumbnail)
-          && Objects.equals(this.data, video.data);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Video video = (Video) o;
+        return likes == video.likes && dislikes == video.dislikes && Objects.equals(id, video.id) && Objects.equals(title, video.title) && Objects.equals(description, video.description) && Objects.equals(date, video.date) && Objects.equals(publisherId, video.publisherId) && Arrays.equals(thumbnail, video.thumbnail) && Arrays.equals(data, video.data);
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, likes, dislikes, date, publisher, thumbnail, data);
+        int result = Objects.hash(id, title, description, likes, dislikes, date, publisherId);
+        result = 31 * result + Arrays.hashCode(thumbnail);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
     }
 
     @Override
@@ -127,11 +129,13 @@ public class Video {
         return "Video{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", publisher='" + publisher + '\'' +
                 ", description='" + description + '\'' +
-                ", likes='" + String.valueOf(likes) + '\'' +
-                ", dislikes='" + String.valueOf(dislikes) + '\'' +
-                ", date='" + date.toString() + '\'' +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", date=" + date +
+                ", publisherId=" + publisherId +
+                ", thumbnail=" + Arrays.toString(thumbnail) +
+                ", data=" + Arrays.toString(data) +
                 '}';
     }
 }

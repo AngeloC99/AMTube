@@ -7,9 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+@Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findById(Long commentId);
     void deleteById(Long commentId);
-    boolean existsbyId(Long commentId);
+    boolean existsById(Long commentId);
     List<Comment> findByVideoId(Long videoId);
 }

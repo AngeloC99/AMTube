@@ -15,24 +15,25 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUser(Principal principal) {
         List<User> users = new ArrayList<User>();
         users.addAll(this.userRepository.findAll());
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User newUser){
         return ResponseEntity.status(201).body(this.userRepository.save(newUser));
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         Optional<User> user = this.userRepository.findById(userId);
 
@@ -42,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(user.get());
     }
 
-    @PutMapping("/users")
+    @PutMapping
     public ResponseEntity<User> updateUser(@RequestBody User user, Principal principal) {
 
         Optional<User> u = this.userRepository.findByUsername(principal.getName());
@@ -57,7 +58,7 @@ public class UserController {
         return ResponseEntity.status(200).body(u.get());
     }
 
-    @PutMapping("/users/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable long userId, @RequestBody User user) {
         Optional<User> userData = userRepository.findById(userId);
         if (userData.isPresent()) {
@@ -71,7 +72,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable long userId) {
         try {
             userRepository.deleteById(userId);
