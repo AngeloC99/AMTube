@@ -2,7 +2,7 @@ package it.uniroma1.userManagement.models;
 
 import javax.persistence.*;
 import java.util.Objects;
-
+import java.io.Serializable;
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
