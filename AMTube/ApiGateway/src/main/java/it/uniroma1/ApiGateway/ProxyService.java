@@ -48,7 +48,7 @@ public class ProxyService {
         Pattern patternVideos = Pattern.compile("/videos");
         Matcher matcherUser = patternUser.matcher(requestUrl);
         Matcher matcherNotifications = patternNotifications.matcher(requestUrl);
-        Matcher matcherSubscriptions = patternNotifications.matcher(requestUrl);
+        Matcher matcherSubscriptions = patternSubscriptions.matcher(requestUrl);
         Matcher matcherVideos = patternVideos.matcher(requestUrl);
         boolean matchUser = matcherUser.find();
         boolean matchNotifications = matcherNotifications.find();

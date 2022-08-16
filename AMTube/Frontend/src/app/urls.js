@@ -2,7 +2,7 @@
 //   /videos/:id
 // /users
 // /login
-// /register
+// /registration
 //   /users/:id
 // /subscriptions
 //   /subscriptions/:id
