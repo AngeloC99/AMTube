@@ -7,6 +7,9 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.time.LocalDate;
 import javax.persistence.*;
+import AMTube.video.models.Video;
+import org.hibernate.annotations.ManyToAny;
+
 import java.util.Objects;
 
 @Entity
@@ -14,23 +17,26 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long videoId;
     private Long publisherId;
     private String publisherUsername;
     private String text;
+    private Long videoId;
+
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
 
-    public Comment() {}
+    public Comment() {
+    }
 
-    public Comment(Long videoId, Long publisherId, String publisherUsername, String text) {
-        this.videoId = videoId;
+    public Comment(Long id, Long publisherId, String publisherUsername, String text, Long videoId, LocalDate date) {
         this.publisherId = publisherId;
         this.publisherUsername = publisherUsername;
         this.text = text;
-        this.date = LocalDate.now();
+        this.videoId = videoId;
+        this.date = date;
     }
+
 
     public Long getId() {
         return this.id;
@@ -40,17 +46,13 @@ public class Comment {
         this.id = id;
     }
 
-    public Long getVideoId() {
-        return this.videoId;
+    public Long getPublisherId() {
+        return publisherId;
     }
 
-    public void setVideoId(Long videoId) {
-        this.videoId = videoId;
+    public void setPublisherId(Long publisherId) {
+        this.publisherId = publisherId;
     }
-
-    public Long getPublisherId() { return publisherId; }
-
-    public void setPublisherId(Long publisherId) { this.publisherId = publisherId; }
 
     public String getPublisherUsername() {
         return this.publisherUsername;
@@ -76,28 +78,40 @@ public class Comment {
         this.date = date;
     }
 
+    public Long getVideoId() {
+        return this.videoId;
+    }
+
+    public void setVideoId(Long videoId) {
+        this.videoId = videoId;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == this)
+            return true;
+        if (!(o instanceof Comment)) {
+            return false;
+        }
         Comment comment = (Comment) o;
-        return Objects.equals(id, comment.id) && Objects.equals(videoId, comment.videoId) && Objects.equals(publisherId, comment.publisherId) && Objects.equals(publisherUsername, comment.publisherUsername) && Objects.equals(text, comment.text) && Objects.equals(date, comment.date);
+        return Objects.equals(id, comment.id) && Objects.equals(publisherId, comment.publisherId) && Objects.equals(publisherUsername, comment.publisherUsername) && Objects.equals(text, comment.text) && Objects.equals(videoId, comment.videoId) && Objects.equals(date, comment.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, videoId, publisherId, publisherUsername, text, date);
+        return Objects.hash(id, publisherId, publisherUsername, text, videoId, date);
     }
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "id=" + String.valueOf(id) +
-                ", videoId='" + String.valueOf(videoId) + '\'' +
-                ", publisherId ='" + publisherId + '\'' +
-                ", publisherUsername ='" + publisherUsername + '\'' +
-                ", text='" + text + '\'' +
-                ", date='" + date.toString() + '\'' +
-                '}';
+        return "{" +
+            " id='" + getId() + "'" +
+            ", publisherId='" + getPublisherId() + "'" +
+            ", publisherUsername='" + getPublisherUsername() + "'" +
+            ", text='" + getText() + "'" +
+            ", videoId='" + getVideoId() + "'" +
+            ", date='" + getDate() + "'" +
+            "}";
     }
+
 }

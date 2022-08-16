@@ -13,4 +13,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     void deleteById(Long commentId);
     boolean existsById(Long commentId);
     List<Comment> findByVideoId(Long videoId);
+    void deleteByVideoId(Long videoId); 
 }
