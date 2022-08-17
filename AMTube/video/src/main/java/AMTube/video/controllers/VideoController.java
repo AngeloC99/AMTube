@@ -8,8 +8,6 @@ import AMTube.video.repositories.UserLikeRepository;
 import AMTube.video.repositories.VideoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
@@ -19,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +41,13 @@ public class VideoController {
         return ResponseEntity.ok(videos);
     }
 
-    @PostMapping()
-    public ResponseEntity<Video> saveVideo(@RequestBody Video newVideo) {
+    @PostMapping
+    public ResponseEntity<Video> saveVideo(@RequestParam("file") MultipartFile file) throws IOException {
         LocalDate date = LocalDate.now();
+        Video newVideo = new Video();
         newVideo.setDate(date);
+        newVideo.setData(file.getBytes());
+        logger.info("new Video");
         return ResponseEntity.status(201).body(this.videoRepository.save(newVideo));
     }
 
@@ -69,9 +69,9 @@ public class VideoController {
         return ResponseEntity.ok(vid);
     }
 
-    @PutMapping("/{videoId}")
-    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) {
-        Optional<Video> video = this.videoRepository.findById(videoId);
+    /*@PutMapping
+    public ResponseEntity<Video> updateVideo(@RequestBody Video newVideo, @RequestParam(name= "file", required = false) MultipartFile thumbnail) throws IOException {
+        Optional<Video> video = this.videoRepository.findById(newVideo.getId());
 
         if (video.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -79,7 +79,25 @@ public class VideoController {
         logger.info("{}", newVideo);
         video.get().setTitle(newVideo.getTitle());
         video.get().setDescription(newVideo.getDescription());
-        video.get().setThumbnail(newVideo.getThumbnail());
+        video.get().setPublisherId(newVideo.getPublisherId());
+        video.get().setThumbnail(thumbnail.getBytes());
+        videoRepository.saveAndFlush(video.get());
+
+        return ResponseEntity.status(200).body(video.get());
+    }*/
+
+
+    @PutMapping
+    public ResponseEntity<Video> updateVideo(@RequestBody Video newVideo) {
+        Optional<Video> video = this.videoRepository.findById(newVideo.getId());
+
+        if (video.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        logger.info("{}", newVideo);
+        video.get().setTitle(newVideo.getTitle());
+        video.get().setDescription(newVideo.getDescription());
+        video.get().setPublisherId(newVideo.getPublisherId());
         videoRepository.saveAndFlush(video.get());
 
         return ResponseEntity.status(200).body(video.get());
