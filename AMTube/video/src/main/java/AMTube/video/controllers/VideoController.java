@@ -2,7 +2,9 @@ package AMTube.video.controllers;
 
 import AMTube.video.models.Video;
 import AMTube.video.models.Comment;
+import AMTube.video.models.UserLike;
 import AMTube.video.repositories.CommentRepository;
+import AMTube.video.repositories.UserLikeRepository;
 import AMTube.video.repositories.VideoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class VideoController {
     private VideoRepository videoRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private UserLikeRepository userLikeRepository;
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
 
     @GetMapping
@@ -53,7 +57,16 @@ public class VideoController {
         if (video.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(video.get());
+        List<Comment> comments = this.commentRepository.findByVideoId(videoId);
+        List<UserLike> likes = this.userLikeRepository.findByVideoId(videoId);
+        List<Long> ids = new ArrayList<Long>();
+        for (UserLike like: likes){
+            ids.add(like.getUserId());
+        }
+        Video vid = video.get();
+        vid.setComments(comments);
+        vid.setLikes(ids);
+        return ResponseEntity.ok(vid);
     }
 
     @PutMapping("/{videoId}")
@@ -66,18 +79,19 @@ public class VideoController {
         logger.info("{}", newVideo);
         video.get().setTitle(newVideo.getTitle());
         video.get().setDescription(newVideo.getDescription());
-        video.get().setLikes(newVideo.getLikes());
-        video.get().setDislikes(newVideo.getDislikes());
         video.get().setThumbnail(newVideo.getThumbnail());
         videoRepository.saveAndFlush(video.get());
 
         return ResponseEntity.status(200).body(video.get());
     }
+
     @DeleteMapping("/{videoId}")
     public ResponseEntity<Video> deleteVideoById(@PathVariable Long videoId) {
         try {
             this.videoRepository.deleteById(videoId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            this.commentRepository.deleteByVideoId(videoId);
+            this.userLikeRepository.deleteByVideoId(videoId);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -85,19 +99,62 @@ public class VideoController {
 
     @PostMapping("/{videoId}/comments")
     public ResponseEntity<Comment> saveComment(@PathVariable Long videoId, @RequestBody Comment newComment) {
+        Optional<Video> video = this.videoRepository.findById(videoId);
+
+        if (video.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        newComment.setVideoId(videoId);
         return ResponseEntity.status(201).body(this.commentRepository.save(newComment));
+    }
+
+    @PostMapping("/{videoId}/like/{userId}")
+    public ResponseEntity<UserLike> likeVideo(@PathVariable Long videoId, @PathVariable Long userId) {
+        Optional<Video> video = this.videoRepository.findById(videoId);
+        if (video.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        List<UserLike> likes = this.userLikeRepository.findByVideoId(videoId);
+        for (UserLike like : likes) {
+            if (like.getUserId() == userId) {
+                return ResponseEntity.status(200).body(like); // Cambiare 200 con il codice per un entità già presente
+            }
+        }
+        UserLike newLike = new UserLike();
+        newLike.setUserId(userId);
+        newLike.setVideoId(videoId);
+        this.userLikeRepository.save(newLike);
+        return ResponseEntity.status(201).body(newLike);
+    }
+
+    @DeleteMapping("/{videoId}/like/{userId}")
+    public ResponseEntity<UserLike> unlikeVideo(@PathVariable Long videoId, @PathVariable Long userId) {
+        Optional<Video> video = this.videoRepository.findById(videoId);
+        if (video.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        List<UserLike> likes = this.userLikeRepository.findByVideoId(videoId);
+        for (UserLike like : likes) {
+            if (like.getUserId() == userId) {
+                this.userLikeRepository.deleteById(like.getId());
+                return ResponseEntity.status(200).body(like); 
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     // TO MODIFY FOR UPDATING VIDEO COMMENTS
     @DeleteMapping("/{videoId}/comments/{commentId}")
     public ResponseEntity<Comment> deleteComment(@PathVariable Long videoId, @PathVariable Long commentId) {
         try {
+            if(!this.commentRepository.existsById(commentId)){
+                return ResponseEntity.notFound().build();
+            }
             this.commentRepository.deleteById(commentId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.status(200).build(); 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }

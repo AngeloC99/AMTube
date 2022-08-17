@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
+import AMTube.video.models.Comment;
 import java.time.LocalDate;
 import java.util.*;
 import javax.persistence.*;
-
 @Entity
 public class Video {
     @Id
@@ -16,8 +15,6 @@ public class Video {
     private Long id;
     private String title;
     private String description;
-    private int likes;
-    private int dislikes;
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
@@ -26,16 +23,31 @@ public class Video {
     private byte[] thumbnail;
     @Lob
     private byte[] data;
-    public Video() {}
 
-    public Video(String title, String description, int likes, int dislikes, LocalDate date, Long publisherId, byte[] thumbnail, byte[] data) {
+    @Transient
+    private List<Comment> comments;
+    @Transient
+    private List<Long> likes; //List of the userIDs of users who liked this video
+    public Video() {
+    }
+
+    public Video(Long id, String title, String description, List<Long> likes, LocalDate date, Long publisherId, byte[] thumbnail, byte[] data, List<Comment> comments) {
         this.title = title;
         this.description = description;
         this.likes = likes;
-        this.dislikes = dislikes;
-        this.date = LocalDate.now();
+        this.date = date;
         this.publisherId = publisherId;
-        this.thumbnail= thumbnail;
+        this.thumbnail = thumbnail;
+        this.data = data;
+        this.comments = comments;
+    }
+    public Video(Long id, String title, String description, List<Long> likes, LocalDate date, Long publisherId, byte[] thumbnail, byte[] data) {
+        this.title = title;
+        this.description = description;
+        this.likes = likes;
+        this.date = date;
+        this.publisherId = publisherId;
+        this.thumbnail = thumbnail;
         this.data = data;
     }
 
@@ -63,20 +75,12 @@ public class Video {
         this.description = description;
     }
 
-    public int getLikes() {
+    public List<Long> getLikes() {
         return this.likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(List<Long> likes) {
         this.likes = likes;
-    }
-
-    public int getDislikes() {
-        return this.dislikes;
-    }
-
-    public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
     }
 
     public LocalDate getDate() {
@@ -87,9 +91,13 @@ public class Video {
         this.date = date;
     }
 
-    public Long getPublisherId() { return publisherId; }
+    public Long getPublisherId() {
+        return publisherId;
+    }
 
-    public void setPublisherId(Long publisherId) { this.publisherId = publisherId; }
+    public void setPublisherId(Long publisherId) {
+        this.publisherId = publisherId;
+    }
 
     public byte[] getThumbnail() {
         return this.thumbnail;
@@ -107,35 +115,45 @@ public class Video {
         this.data = data;
     }
 
+    public List<Comment> getComments() {
+        return this.comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == this)
+            return true;
+        if (!(o instanceof Video)) {
+            return false;
+        }
         Video video = (Video) o;
-        return likes == video.likes && dislikes == video.dislikes && Objects.equals(id, video.id) && Objects.equals(title, video.title) && Objects.equals(description, video.description) && Objects.equals(date, video.date) && Objects.equals(publisherId, video.publisherId) && Arrays.equals(thumbnail, video.thumbnail) && Arrays.equals(data, video.data);
+        return Objects.equals(id, video.id) && Objects.equals(title, video.title) && Objects.equals(description, video.description) && likes == video.likes && Objects.equals(date, video.date) && Objects.equals(publisherId, video.publisherId) && Objects.equals(thumbnail, video.thumbnail) && Objects.equals(data, video.data) && Objects.equals(comments, video.comments);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, title, description, likes, dislikes, date, publisherId);
-        result = 31 * result + Arrays.hashCode(thumbnail);
-        result = 31 * result + Arrays.hashCode(data);
-        return result;
+        return Objects.hash(id, title, description, likes, date, publisherId, thumbnail, data, comments);
     }
+
 
     @Override
     public String toString() {
-        return "Video{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", likes=" + likes +
-                ", dislikes=" + dislikes +
-                ", date=" + date +
-                ", publisherId=" + publisherId +
-                ", thumbnail=" + Arrays.toString(thumbnail) +
-                ", data=" + Arrays.toString(data) +
-                '}';
+        return "{" +
+            " id='" + getId() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", date='" + getDate() + "'" +
+            ", publisherId='" + getPublisherId() + "'" +
+            ", thumbnail='" + getThumbnail() + "'" +
+            ", data='" + getData() + "'" +
+            ", comments='" + getComments() + "'" +
+            ", likes='" + getLikes() + "'" +
+            "}";
     }
+
+
 }
