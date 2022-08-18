@@ -7,8 +7,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.time.LocalDate;
 import javax.persistence.*;
-import AMTube.video.models.Video;
-import org.hibernate.annotations.ManyToAny;
 
 import java.util.Objects;
 

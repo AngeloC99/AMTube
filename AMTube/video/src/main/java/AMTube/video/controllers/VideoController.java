@@ -69,22 +69,6 @@ public class VideoController {
         return ResponseEntity.ok(vid);
     }
 
-    /*@PutMapping
-    public ResponseEntity<Video> updateVideo(@RequestBody Video newVideo, @RequestParam(name= "file", required = false) MultipartFile thumbnail) throws IOException {
-        Optional<Video> video = this.videoRepository.findById(newVideo.getId());
-
-        if (video.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        logger.info("{}", newVideo);
-        video.get().setTitle(newVideo.getTitle());
-        video.get().setDescription(newVideo.getDescription());
-        video.get().setPublisherId(newVideo.getPublisherId());
-        video.get().setThumbnail(thumbnail.getBytes());
-        videoRepository.saveAndFlush(video.get());
-
-        return ResponseEntity.status(200).body(video.get());
-    }*/
 
 
     @PutMapping("/{videoId}")
@@ -103,6 +87,22 @@ public class VideoController {
         return ResponseEntity.status(200).body(video.get());
     }
 
+    @DeleteMapping("/{videoId}")
+    public ResponseEntity<Video> deleteVideoById(@PathVariable Long videoId) {
+        try {
+            this.videoRepository.deleteById(videoId);
+            this.commentRepository.deleteByVideoId(videoId);
+            this.userLikeRepository.deleteByVideoId(videoId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/findByUserId/{userId}")
+    public ResponseEntity<List<Video>> getAllVideosByUserId(@PathVariable Long userId) {
+        List<Video> videos = this.videoRepository.findByPublisherId(userId);
+        return ResponseEntity.ok(videos);
+    }
     @PutMapping("/{videoId}/thumbnail")
     public ResponseEntity<Video> saveThumbnail(@PathVariable Long videoId, @RequestParam("thumbnail") MultipartFile thumbnail) throws IOException {
         Optional<Video> video = this.videoRepository.findById(videoId);
@@ -117,17 +117,6 @@ public class VideoController {
         return ResponseEntity.status(201).body(video.get());
     }
 
-    @DeleteMapping("/{videoId}")
-    public ResponseEntity<Video> deleteVideoById(@PathVariable Long videoId) {
-        try {
-            this.videoRepository.deleteById(videoId);
-            this.commentRepository.deleteByVideoId(videoId);
-            this.userLikeRepository.deleteByVideoId(videoId);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     @PostMapping("/{videoId}/comments")
     public ResponseEntity<Comment> saveComment(@PathVariable Long videoId, @RequestBody Comment newComment) {

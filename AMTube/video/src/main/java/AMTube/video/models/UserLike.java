@@ -1,7 +1,6 @@
 package AMTube.video.models;
 
 import java.util.Objects;
-import java.util.*;
 
 import javax.persistence.*;
 
