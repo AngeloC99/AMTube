@@ -87,9 +87,9 @@ public class VideoController {
     }*/
 
 
-    @PutMapping
-    public ResponseEntity<Video> updateVideo(@RequestBody Video newVideo) {
-        Optional<Video> video = this.videoRepository.findById(newVideo.getId());
+    @PutMapping("/{videoId}")
+    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) {
+        Optional<Video> video = this.videoRepository.findById(videoId);
 
         if (video.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -101,6 +101,20 @@ public class VideoController {
         videoRepository.saveAndFlush(video.get());
 
         return ResponseEntity.status(200).body(video.get());
+    }
+
+    @PutMapping("/{videoId}/thumbnail")
+    public ResponseEntity<Video> saveThumbnail(@PathVariable Long videoId, @RequestParam("thumbnail") MultipartFile thumbnail) throws IOException {
+        Optional<Video> video = this.videoRepository.findById(videoId);
+
+        if (video.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        video.get().setThumbnail(thumbnail.getBytes());
+        videoRepository.saveAndFlush(video.get());
+
+        return ResponseEntity.status(201).body(video.get());
     }
 
     @DeleteMapping("/{videoId}")

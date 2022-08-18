@@ -15,7 +15,7 @@ import { SearchResultsComponent } from './pages/search-results/search-results.co
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { UserInitialsAvatarComponent } from './shared/components/user-initials-avatar/user-initials-avatar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {NgxFileDropModule} from "ngx-file-drop";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -23,6 +23,19 @@ import {MatButtonModule} from "@angular/material/button";
 import { HeaderComponent } from './shared/components/header/header.component'
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import { SaveVideoDetailsComponent } from './pages/save-video-details/save-video-details.component';
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatOptionModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
+import {MatChipsModule} from "@angular/material/chips";
+import {VgCoreModule} from "@videogular/ngx-videogular/core";
+import {VgControlsModule} from "@videogular/ngx-videogular/controls";
+import {VgBufferingModule} from "@videogular/ngx-videogular/buffering";
+import {VgOverlayPlayModule} from "@videogular/ngx-videogular/overlay-play";
+import { VideoPlayerComponent } from './shared/components/video-player/video-player.component';
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -39,7 +52,9 @@ import {MatIconModule} from "@angular/material/icon";
     MyProfileComponent,
     UserInitialsAvatarComponent,
     PageNotFoundComponent,
-    HeaderComponent
+    HeaderComponent,
+    SaveVideoDetailsComponent,
+    VideoPlayerComponent
   ],
   imports: [
     BrowserModule,
@@ -49,8 +64,20 @@ import {MatIconModule} from "@angular/material/icon";
     HttpClientModule,
     NgxFileDropModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule,
+    MatOptionModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatChipsModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

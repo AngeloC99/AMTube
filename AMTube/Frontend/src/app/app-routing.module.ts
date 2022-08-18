@@ -10,6 +10,7 @@ import {SubscriptionsComponent} from "./pages/subscriptions/subscriptions.compon
 import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {SearchResultsComponent} from "./pages/search-results/search-results.component";
+import {SaveVideoDetailsComponent} from "./pages/save-video-details/save-video-details.component";
 
 const routes: Routes = [
   {
@@ -29,6 +30,9 @@ const routes: Routes = [
   },
   {
     path: 'video-detail/:videoId', component: VideoDetailComponent,
+  },
+  {
+    path: 'save-video-details/:videoId', component: SaveVideoDetailsComponent,
   },
   {
     path: 'register', component: RegisterComponent,
