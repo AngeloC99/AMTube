@@ -2,7 +2,6 @@ package it.uniroma1.userManagement.controllers;
 
 import it.uniroma1.userManagement.models.User;
 import it.uniroma1.userManagement.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +17,14 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUser(Principal principal) {
+    public ResponseEntity<List<User>> getAllUser() {
         List<User> users = new ArrayList<User>();
         users.addAll(this.userRepository.findAll());
         return ResponseEntity.ok(users);

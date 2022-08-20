@@ -14,7 +14,12 @@ import {SaveVideoDetailsComponent} from "./pages/save-video-details/save-video-d
 
 const routes: Routes = [
   {
-    path: '', component: HomeComponent,
+    path: 'home', component: HomeComponent,
+  },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
   },
   {
     path: 'login', component: LoginComponent,
