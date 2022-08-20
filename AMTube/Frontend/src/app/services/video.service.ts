@@ -14,7 +14,6 @@ export class VideoService {
   uploadVideo(fileEntryVideo: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', fileEntryVideo, fileEntryVideo.name);   // same name "file" as request parameter in Video microservice
-    // POST to upload the video
     return this.httpClient.post<Video>(URL.VIDEOS, formData);
   }
 
@@ -22,9 +21,9 @@ export class VideoService {
   uploadThumbnail(fileEntry: File, videoId: string): Observable<any> {
     const formData = new FormData();
     formData.append('thumbnail', fileEntry, fileEntry.name);
-    // PUT to upload the thumbnail
-    console.log(URL.VIDEOS + "/" + videoId + "/thumbnail");
-    return this.httpClient.put<Video>(URL.VIDEOS + "/" + videoId + "/thumbnail", formData);
+    formData.append('videoId', videoId);
+    console.log(URL.VIDEOS + "/" + videoId + "/thumbnails");
+    return this.httpClient.post<Video>(URL.THUMBNAILS, formData);
   }
 
   getVideo(videoId: String): Observable<Video>{

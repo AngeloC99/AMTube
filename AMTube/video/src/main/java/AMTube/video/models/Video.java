@@ -18,10 +18,8 @@ public class Video {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
     private Long publisherId;
-    @Lob
-    private byte[] thumbnail;
-    @Lob
-    private byte[] data;
+    private String thumbnailUrl;
+    private String videoUrl;
 
     @Transient
     private List<Comment> comments;
@@ -30,24 +28,15 @@ public class Video {
     public Video() {
     }
 
-    public Video(Long id, String title, String description, List<Long> likes, LocalDate date, Long publisherId, byte[] thumbnail, byte[] data, List<Comment> comments) {
+    public Video(Long id, String title, String description, List<Long> likes, LocalDate date, Long publisherId, String thumbnailUrl, String videoUrl, List<Comment> comments) {
         this.title = title;
         this.description = description;
         this.likes = likes;
         this.date = date;
         this.publisherId = publisherId;
-        this.thumbnail = thumbnail;
-        this.data = data;
+        this.thumbnailUrl = thumbnailUrl;
+        this.videoUrl = videoUrl;
         this.comments = comments;
-    }
-    public Video(Long id, String title, String description, List<Long> likes, LocalDate date, Long publisherId, byte[] thumbnail, byte[] data) {
-        this.title = title;
-        this.description = description;
-        this.likes = likes;
-        this.date = date;
-        this.publisherId = publisherId;
-        this.thumbnail = thumbnail;
-        this.data = data;
     }
 
     public Long getId() {
@@ -98,20 +87,20 @@ public class Video {
         this.publisherId = publisherId;
     }
 
-    public byte[] getThumbnail() {
-        return this.thumbnail;
+    public String getThumbnailUrl() {
+        return this.thumbnailUrl;
     }
 
-    public void setThumbnail(byte[] thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbnailUrl(String thumbnail) {
+        this.thumbnailUrl = thumbnail;
     }
 
-    public byte[] getData() {
-        return this.data;
+    public String getVideoUrl() {
+        return this.videoUrl;
     }
 
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setVideoUrl(String data) {
+        this.videoUrl = data;
     }
 
     public List<Comment> getComments() {
@@ -124,35 +113,29 @@ public class Video {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Video)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Video video = (Video) o;
-        return Objects.equals(id, video.id) && Objects.equals(title, video.title) && Objects.equals(description, video.description) && likes == video.likes && Objects.equals(date, video.date) && Objects.equals(publisherId, video.publisherId) && Objects.equals(thumbnail, video.thumbnail) && Objects.equals(data, video.data) && Objects.equals(comments, video.comments);
+        return Objects.equals(id, video.id) && Objects.equals(title, video.title) && Objects.equals(description, video.description) && Objects.equals(date, video.date) && Objects.equals(publisherId, video.publisherId) && Objects.equals(thumbnailUrl, video.thumbnailUrl) && Objects.equals(videoUrl, video.videoUrl) && Objects.equals(comments, video.comments) && Objects.equals(likes, video.likes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, likes, date, publisherId, thumbnail, data, comments);
+        return Objects.hash(id, title, description, date, publisherId, thumbnailUrl, videoUrl, comments, likes);
     }
-
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", date='" + getDate() + "'" +
-            ", publisherId='" + getPublisherId() + "'" +
-            ", thumbnail='" + getThumbnail() + "'" +
-            ", data='" + getData() + "'" +
-            ", comments='" + getComments() + "'" +
-            ", likes='" + getLikes() + "'" +
-            "}";
+        return "Video{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", publisherId=" + publisherId +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", comments=" + comments +
+                ", likes=" + likes +
+                '}';
     }
-
-
 }

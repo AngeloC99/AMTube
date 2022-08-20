@@ -7,6 +7,7 @@ import AMTube.video.repositories.CommentRepository;
 import AMTube.video.repositories.UserLikeRepository;
 import AMTube.video.repositories.VideoRepository;
 
+import AMTube.video.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,12 @@ public class VideoController {
     private CommentRepository commentRepository;
     @Autowired
     private UserLikeRepository userLikeRepository;
+    private final VideoService videoService;
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
+
+    public VideoController(VideoService videoService) {
+        this.videoService = videoService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Video>> getAllVideo() {
@@ -42,13 +48,14 @@ public class VideoController {
     }
 
     @PostMapping
-    public ResponseEntity<Video> saveVideo(@RequestParam("file") MultipartFile file) throws IOException {
-        LocalDate date = LocalDate.now();
-        Video newVideo = new Video();
-        newVideo.setDate(date);
-        newVideo.setData(file.getBytes());
+    public ResponseEntity<Video> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
         logger.info("new Video");
-        return ResponseEntity.status(201).body(this.videoRepository.save(newVideo));
+        return ResponseEntity.status(201).body(videoService.uploadVideo(file));
+    }
+
+    @PostMapping("/thumbnails")
+    public ResponseEntity<String> uploadThumbnail(@RequestParam("thumbnail") MultipartFile file, @RequestParam("videoId") String videoId) {
+        return ResponseEntity.status(201).body(videoService.uploadThumbnail(file, videoId));
     }
 
     @GetMapping("/{videoId}")
@@ -81,6 +88,7 @@ public class VideoController {
         logger.info("{}", newVideo);
         video.get().setTitle(newVideo.getTitle());
         video.get().setDescription(newVideo.getDescription());
+        video.get().setDate(LocalDate.now());
         video.get().setPublisherId(newVideo.getPublisherId());
         videoRepository.saveAndFlush(video.get());
 
@@ -102,19 +110,6 @@ public class VideoController {
     public ResponseEntity<List<Video>> getAllVideosByUserId(@PathVariable Long userId) {
         List<Video> videos = this.videoRepository.findByPublisherId(userId);
         return ResponseEntity.ok(videos);
-    }
-    @PutMapping("/{videoId}/thumbnail")
-    public ResponseEntity<Video> saveThumbnail(@PathVariable Long videoId, @RequestParam("thumbnail") MultipartFile thumbnail) throws IOException {
-        Optional<Video> video = this.videoRepository.findById(videoId);
-
-        if (video.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        video.get().setThumbnail(thumbnail.getBytes());
-        videoRepository.saveAndFlush(video.get());
-
-        return ResponseEntity.status(201).body(video.get());
     }
 
 

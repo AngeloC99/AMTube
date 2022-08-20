@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class VideoPlayerComponent implements OnInit {
 
   @Input()
-  videoData!: File | '';
+  videoUrl!: string | undefined;
 
   constructor() { }
 

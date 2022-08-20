@@ -30,7 +30,7 @@
               <p>Selected File: {{selectedFileName}}</p>
             </div>
             <div>
-              <button mat-raised-button color="primary" type="submit" (click)="onUpload()">Upload</button>
+              <button mat-raised-button color="primary" (click)="onUpload()">Upload</button>
             </div>
           </div>
           <br>
@@ -45,7 +45,7 @@
   </div>
 
   <div fxFlex="30%">
-    <app-video-player ></app-video-player>
+    <app-video-player [videoUrl]="videoUrl"></app-video-player>
   </div>
 
   <div fxFlex="20%">Hi</div>

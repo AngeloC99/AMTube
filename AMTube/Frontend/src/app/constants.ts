@@ -6,5 +6,6 @@ export const URL = {
   NOTIFICATIONS: URL_BASE + 'videoNotifications',
   SUBSCRIPTIONS: URL_BASE + 'subscriptions',
   VIDEOS: URL_BASE + 'videos',
+  THUMBNAILS: URL_BASE + 'videos/thumbnails',
   USERS: URL_BASE + 'users',
 };

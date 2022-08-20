@@ -6,8 +6,8 @@ export interface Video {
   description: string;
   date?: Date;
   publisherId: number;
-  thumbnail?: File;
-  data?: File;
+  thumbnailUrl?: string;
+  videoUrl?: string;
   comments?: Array<Comment>;
   likes?: Array<number>;
 }
