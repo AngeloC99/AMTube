@@ -1,4 +1,5 @@
-export const URL_BASE = 'http://localhost:9000/AMTube/';
+export const URL_BASE = 'http://localhost:8080/';
+export const URL_USER = 'http://localhost:8080/';
 
 export const URL = {
   LOGIN: URL_BASE + 'auth/login',
@@ -9,3 +10,9 @@ export const URL = {
   THUMBNAILS: URL_BASE + 'videos/thumbnails',
   USERS: URL_BASE + 'users',
 };
+
+export const X_AUTH = 'X-Auth';
+
+export const AUTH_TOKEN = 'auth-token';
+
+export const USER_STORAGE = 'user';

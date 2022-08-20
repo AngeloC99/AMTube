@@ -10,13 +10,13 @@ import { HomeComponent } from './pages/home/home.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { SubscriptionsComponent } from './pages/subscriptions/subscriptions.component';
-import { VideoDetailComponent } from './pages/video-detail/video-detail.component';
+import { VideoDetailComponent } from './pages/video-details/video-detail.component';
 import { SearchResultsComponent } from './pages/search-results/search-results.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { UserInitialsAvatarComponent } from './shared/components/user-initials-avatar/user-initials-avatar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {NgxFileDropModule} from "ngx-file-drop";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatButtonModule} from "@angular/material/button";
@@ -36,6 +36,8 @@ import {VgBufferingModule} from "@videogular/ngx-videogular/buffering";
 import {VgOverlayPlayModule} from "@videogular/ngx-videogular/overlay-play";
 import { VideoPlayerComponent } from './shared/components/video-player/video-player.component';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {TokenInterceptorService} from "./services/token-interceptor.service";
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
     PageNotFoundComponent,
     HeaderComponent,
     SaveVideoDetailsComponent,
-    VideoPlayerComponent
+    VideoPlayerComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +82,7 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
     VgBufferingModule,
     MatSnackBarModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

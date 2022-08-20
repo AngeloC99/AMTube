@@ -1,1 +1,29 @@
-<p>register works!</p>
+<div class="register">
+
+    <!-- Logo -->
+    <img alt="logo" src="assets/images/logo_amtube.png" >
+
+    <form [formGroup]="registrationForm">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Username</mat-label>
+            <input formControlName="username" minlength="5" maxlength="20" matInput placeholder="Enter your username..." value="">
+        </mat-form-field>
+        <p class="text08" color="danger" *ngIf="registrationForm.errors">Username Required!</p>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" minlength="5" maxlength="25" matInput placeholder="Enter your email..." value="">
+        </mat-form-field>
+        <p class="text08" color="danger" *ngIf="registrationForm.errors">Email Required!</p>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" minlength="5" maxlength="30" matInput placeholder="Enter your password..." value="">
+        </mat-form-field>
+        <p class="text08" color="danger" *ngIf="registrationForm.errors">Password Required!</p>
+
+        <button mat-button expand="block" color="primary" (click)="onRegister()" [disabled]="!registrationForm.valid">Sign Up!</button>
+        <button mat-button expand="block" (click)="goLogin()" color="primary" expand="block">Go to Login</button>
+    </form>
+
+</div>
