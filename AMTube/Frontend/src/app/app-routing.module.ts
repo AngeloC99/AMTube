@@ -12,6 +12,7 @@ import {RegisterComponent} from "./pages/register/register.component";
 import {SearchResultsComponent} from "./pages/search-results/search-results.component";
 import {SaveVideoDetailsComponent} from "./pages/save-video-details/save-video-details.component";
 import {AuthGuard} from "./guard/auth.guard";
+import {NotificationsComponent} from "./pages/notifications/notifications.component";
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
   },
   {
     path: 'user-profile', component: UserProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'notifications', component: NotificationsComponent,
     canActivate: [AuthGuard],
   },
   {

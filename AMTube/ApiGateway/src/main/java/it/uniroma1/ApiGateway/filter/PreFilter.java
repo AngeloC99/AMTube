@@ -24,9 +24,7 @@ public class PreFilter extends ZuulFilter {
 	  }
 
 	  @Override
-	  public boolean shouldFilter() {
-	    return true;
-	  }
+	  public boolean shouldFilter() { return true; }
 
 	  @Override
 	  public Object run() {
@@ -34,7 +32,7 @@ public class PreFilter extends ZuulFilter {
 	    HttpServletRequest request = ctx.getRequest();
 
 	    log.info("PreFilter: " + String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
-	    
+
 	    return null;
 	  }
 }

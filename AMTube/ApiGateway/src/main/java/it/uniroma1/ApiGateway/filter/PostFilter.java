@@ -20,7 +20,7 @@ public class PostFilter extends ZuulFilter {
 
 	  @Override
 	  public int filterOrder() {
-	    return 1;
+	    return 3;
 	  }
 
 	  @Override
@@ -33,7 +33,7 @@ public class PostFilter extends ZuulFilter {
 	    HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
 	    
 	    log.info("PostFilter: " + String.format("response's content type is %s", response.getStatus()));
-	    
+
 	    return null;
 	  }
 }

@@ -1,5 +1,4 @@
-export const URL_BASE = 'http://localhost:8080/';
-export const URL_USER = 'http://localhost:8080/';
+export const URL_BASE = 'http://localhost:9000/AMTube/';
 
 export const URL = {
   LOGIN: URL_BASE + 'auth/login',

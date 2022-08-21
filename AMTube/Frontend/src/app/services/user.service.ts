@@ -24,14 +24,12 @@ export class UserService {
     return this.jwtToken$.asObservable();
   }
 
-  login(account: LoginForm): Observable<Token> {
-    // @ts-ignore
+  login(account: LoginForm): Observable<Token | null> {
     return this.http.post<Token>(URL.LOGIN, account, {observe: 'response'}).pipe(
         map((resp: HttpResponse<Token>) => {
           // @ts-ignore
           const token = resp.body.token;
           localStorage.setItem(AUTH_TOKEN, token);
-          // update Observable User
           this.jwtToken$.next(token);
           return resp.body;
         }));

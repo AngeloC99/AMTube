@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {from, Observable, switchMap} from "rxjs";
-import {AUTH_TOKEN} from "../constants";
+import {Observable, switchMap} from "rxjs";
 import {UserService} from "./user.service";
 
 @Injectable({

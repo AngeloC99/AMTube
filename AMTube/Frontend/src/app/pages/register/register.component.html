@@ -18,7 +18,7 @@
 
         <mat-form-field class="full-width" appearance="fill">
             <mat-label>Password</mat-label>
-            <input formControlName="password" minlength="5" maxlength="30" matInput placeholder="Enter your password..." value="">
+            <input formControlName="password" type="password" minlength="5" maxlength="30" matInput placeholder="Enter your password..." value="">
         </mat-form-field>
         <p class="text08" color="danger" *ngIf="registrationForm.errors">Password Required!</p>
 

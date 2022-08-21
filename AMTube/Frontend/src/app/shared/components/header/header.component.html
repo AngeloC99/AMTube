@@ -2,12 +2,13 @@
   <mat-toolbar-row>
     <span>AMTube</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" >
-      <mat-icon>favorite</mat-icon>
+    <button mat-icon-button class="example-icon favorite-icon" *ngIf="logged" aria-label="Example icon-button with heart icon" (click)="onNotifications()">
+      <mat-icon>notification_important</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
+    <button mat-button expand="block" *ngIf="logged" (click)="onMyVideos()">My Videos</button>
+    <button mat-button expand="block" *ngIf="logged" (click)="onSubs()">Subscriptions</button>
+    <button mat-button expand="block" *ngIf="logged" (click)="onProfile()">Profile</button>
+    <button mat-button expand="block" *ngIf="logged"  (click)="onLogout()">Logout</button>
   </mat-toolbar-row>
 </mat-toolbar>
 

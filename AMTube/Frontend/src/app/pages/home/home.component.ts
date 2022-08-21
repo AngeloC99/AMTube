@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor(private videoService: VideoService, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe();
+    //this.userService.getAllUsers().subscribe();
   }
 
   onLogout() {
