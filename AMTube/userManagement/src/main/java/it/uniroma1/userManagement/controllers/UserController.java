@@ -23,9 +23,9 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUser() {
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         users.addAll(this.userRepository.findAll());
         return ResponseEntity.ok(users);
     }
@@ -45,33 +45,28 @@ public class UserController {
         return ResponseEntity.ok(user.get());
     }
 
+    @GetMapping
+    public ResponseEntity<?> getUserInfo(Principal principal) {
+        Optional<User> user = this.userRepository.findByUsername(principal.getName());
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(200).body(user.get());
+    }
+
     @PutMapping
     public ResponseEntity<User> updateUser(@RequestBody User user, Principal principal) {
-
         Optional<User> u = this.userRepository.findByUsername(principal.getName());
         if (u.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         logger.info("{}",user);
+        u.get().setUsername(user.getUsername());
         u.get().setEmail(user.getEmail());
         u.get().setPassword(user.getPassword());
         userRepository.saveAndFlush(u.get());
 
         return ResponseEntity.status(200).body(u.get());
-    }
-
-    @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable long userId, @RequestBody User user) {
-        Optional<User> userData = userRepository.findById(userId);
-        if (userData.isPresent()) {
-            User userNew = userData.get();
-            userNew.setUsername(user.getUsername());
-            userNew.setEmail(user.getEmail());
-            userNew.setPassword(user.getPassword());
-            return new ResponseEntity<>(userRepository.save(userNew), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     @DeleteMapping("/{userId}")

@@ -16,11 +16,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/auth")
@@ -62,6 +62,17 @@ public class AuthController {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         this.userRepository.save(user);
         return ResponseEntity.status(201).build();
+    }
+
+    @GetMapping("/verification")
+    public ResponseEntity<User> verify(Principal principal) {
+        try {
+            logger.info("User From Verification: " + principal.getName());
+            Optional<User> user = this.userRepository.findByUsername(principal.getName());
+            return ResponseEntity.status(HttpStatus.OK).body(user.get());
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(401).build();
+        }
     }
 
 }

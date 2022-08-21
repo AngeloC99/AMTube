@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {HttpClient, HttpResponse} from "@angular/common/http";
-import {AUTH_TOKEN, URL} from "../constants";
+import {AUTH_TOKEN, URL, USER_ID} from "../constants";
 import {LoginForm} from "../model/loginForm.model";
 import {Token} from "../model/token.model";
 import {RegistrationForm} from "../model/registrationForm.model";
@@ -37,6 +37,7 @@ export class UserService {
 
   logout() {
     localStorage.removeItem(AUTH_TOKEN);
+    localStorage.removeItem(USER_ID);
     this.jwtToken$.next(null);
   }
 
@@ -53,7 +54,7 @@ export class UserService {
   }
 
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${URL.USERS}${id}`);
+    return this.http.get<User>(`${URL.USERS}/${id}`);
   }
 
   putUser(user: User): Observable<User> {

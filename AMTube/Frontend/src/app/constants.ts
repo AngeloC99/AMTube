@@ -14,4 +14,4 @@ export const X_AUTH = 'X-Auth';
 
 export const AUTH_TOKEN = 'auth-token';
 
-export const USER_STORAGE = 'user';
+export const USER_ID = 'user-id';

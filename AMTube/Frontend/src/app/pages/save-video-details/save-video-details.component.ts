@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {VideoService} from "../../services/video.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Video} from "../../model/video.model";
+import {USER_ID} from "../../constants";
 
 @Component({
   selector: 'app-save-video-details',
@@ -20,11 +21,13 @@ export class SaveVideoDetailsComponent implements OnInit {
   videoId = '';
   fileSelected = false;
   videoUrl!: string | undefined;
+  thumbnailUrl!: string | undefined;
 
   constructor(private activatedRoute: ActivatedRoute, private videoService: VideoService, private matSnackBar: MatSnackBar) {
     this.videoId = this.activatedRoute.snapshot.params['videoId'];
     this.videoService.getVideo(this.videoId).subscribe(data => {
       this.videoUrl = data.videoUrl;
+      this.thumbnailUrl = data.thumbnailUrl;
     })
     this.saveVideoDetailsForm = new FormGroup({
       title: this.title,
@@ -55,7 +58,7 @@ export class SaveVideoDetailsComponent implements OnInit {
     const videoMetadata: Video = {
       "title": this.saveVideoDetailsForm.get('title')?.value,
       "description": this.saveVideoDetailsForm.get('description')?.value,
-      "publisherId": 12,
+      "publisherId": Number(localStorage.getItem(USER_ID)),
     }
     this.videoService.saveVideo(videoMetadata, this.videoId).subscribe(data => {
       this.matSnackBar.open("Video Metadata Updated successfully", "OK");

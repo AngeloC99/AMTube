@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {VideoService} from "../../services/video.service";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
+import {USER_ID} from "../../constants";
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     //this.userService.getAllUsers().subscribe();
+    this.userService.getUserInfo().subscribe(data => {
+      localStorage.setItem(USER_ID, data.id)
+    });
   }
 
   onLogout() {

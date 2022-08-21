@@ -29,8 +29,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response,
                                     @NotNull FilterChain chain) throws ServletException, IOException {
-        // Authorization: Bearer akjldlqdh;aijsd123jka;sd
-        final String authorizationHeader = request.getHeader("Authorization");
+        final String authorizationHeader = request.getHeader("Authorization");                                        // Authorization: Bearer bhy;deRFsd123jka;sd
 
         logger.info("Authorization header: "+authorizationHeader);
         logger.info("Request: "+request.getRequestURL() +"---"+request.getMethod());

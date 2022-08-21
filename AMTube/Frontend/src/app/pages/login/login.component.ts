@@ -40,8 +40,7 @@ export class LoginComponent implements OnInit {
         (err: HttpErrorResponse) => {
           if (err.status === 401) {
             console.error('Login request error: ' + err.status);
-            // SHOW ERROR
-
+            alert("ERROR: insert valid credentials!")
           }
         });
   }
