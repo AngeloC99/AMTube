@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
@@ -11,7 +12,7 @@ import com.netflix.zuul.context.RequestContext;
 
 @Component
 public class PostFilter extends ZuulFilter {
-	private static Logger log = LoggerFactory.getLogger(PostFilter.class);
+	private final Logger log = LoggerFactory.getLogger(PostFilter.class);
 
 	  @Override
 	  public String filterType() {
@@ -32,7 +33,7 @@ public class PostFilter extends ZuulFilter {
 	  public Object run() {
 	    HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
 	    
-	    log.info("PostFilter: " + String.format("response's content type is %s", response.getStatus()));
+	    log.info("Custom PostFilter: " + String.format("response's content type is %s", response.getStatus()));
 
 	    return null;
 	  }

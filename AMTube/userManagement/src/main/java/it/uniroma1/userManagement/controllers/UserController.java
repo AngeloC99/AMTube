@@ -79,4 +79,14 @@ public class UserController {
         }
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteUserLogged(Principal principal) {
+        try {
+            this.userRepository.deleteByUsername(principal.getName());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

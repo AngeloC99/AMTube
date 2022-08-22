@@ -64,7 +64,7 @@ public class AuthController {
         return ResponseEntity.status(201).build();
     }
 
-    @GetMapping("/verification")
+    @PostMapping("/verification")
     public ResponseEntity<User> verify(Principal principal) {
         try {
             logger.info("User From Verification: " + principal.getName());
