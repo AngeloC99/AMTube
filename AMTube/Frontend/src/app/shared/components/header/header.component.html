@@ -1,6 +1,6 @@
-<div style="height: 5%; width:100%; background: rgb(48,67,112); display: flex;">
+<div style="height: 5%; width:100%; background: linear-gradient(to right, rgba(48,67,112,1), rgba(48,67,112,0.9)); display: flex;">
   <input type="image" src="assets/images/logo_amtube-nobg.png"
-    style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;">
+    style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;" (click)="onHome()" [disabled]="!logged">
 
   <div style="margin-left:65%;width:100%;" *ngIf="logged">
     <button class="buttonTab"

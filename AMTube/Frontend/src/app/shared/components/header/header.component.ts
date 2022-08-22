@@ -36,6 +36,11 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('register');
   }
 
+  onHome(){
+    if(this.logged){
+      this.router.navigateByUrl('home')
+    }
+  }
   onMyVideos() {
     this.router.navigateByUrl('my-videos');
   }

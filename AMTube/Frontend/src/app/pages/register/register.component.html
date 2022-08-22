@@ -1,29 +1,29 @@
-<div class="register">
+<div style="display: flex; justify-content:center; align-content:space-around; margin-top:5%">
+    <h1 style="color: #304370; vertical-align:middle; ">Sign Up</h1>
+</div>
 
-    <!-- Logo -->
-    <img alt="logo" src="assets/images/logo_amtube.png" >
-
-    <form [formGroup]="registrationForm">
-        <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Username</mat-label>
-            <input formControlName="username" minlength="5" maxlength="20" matInput placeholder="Enter your username..." value="">
-        </mat-form-field>
+<form [formGroup]="registrationForm"
+    style="display: grid; justify-content:center; align-content:center;  margin-top:5%; width:100%">
+    <div style="padding:0.2vw; margin-bottom:5%; width:100%; display:flex;  ">
+        <label style="width:65%"><b>Username:</b></label>
+        <input formControlName="username" minlength="5" maxlength="20" matInput placeholder="Enter your username..."
+            value="" style="width:100%">
         <p class="text08" color="danger" *ngIf="registrationForm.errors">Username Required!</p>
+    </div>
+    <div style="padding:0.2vw; margin-bottom:5%; width: 100%; display:flex; margin-top:10%">
+        <label style="width:65%"><b>Email:</b></label>
+        <input formControlName="email" minlength="5" maxlength="25" matInput placeholder="Enter your email..." 
+            value="" style="width:100%">
+        <p class="text08" color="danger" *ngIf="registrationForm.errors">E-Mail Required!</p>
 
-        <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Email</mat-label>
-            <input formControlName="email" minlength="5" maxlength="25" matInput placeholder="Enter your email..." value="">
-        </mat-form-field>
-        <p class="text08" color="danger" *ngIf="registrationForm.errors">Email Required!</p>
-
-        <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input formControlName="password" type="password" minlength="5" maxlength="30" matInput placeholder="Enter your password..." value="">
-        </mat-form-field>
+    </div>
+    <div style="padding:0.2vw; margin-bottom:5%; width: 100%; display:flex; margin-top:10%">
+        <label style="width:65%"><b>Password:</b></label>
+        <input formControlName="password" type="password" minlength="5" maxlength="30" matInput
+            placeholder="Enter your password..." value="" style="width:100%">
         <p class="text08" color="danger" *ngIf="registrationForm.errors">Password Required!</p>
 
-        <button mat-button expand="block" color="primary" (click)="onRegister()" [disabled]="!registrationForm.valid">Sign Up!</button>
-        <button mat-button expand="block" (click)="goLogin()" color="primary" expand="block">Go to Login</button>
-    </form>
+    </div>
 
-</div>
+    <button class="buttonTab" mat-button expand="block" (click)="onRegister()"
+        [disabled]="!registrationForm.valid" style="margin-top:10%; color: white">Sign Up</button>

@@ -1,13 +1,9 @@
-span.panelTitleTxt
-{
-    display:block;
-    width:50%;
-    height: 50%;
-    margin: 0 auto;
-}
-
-
-p{
+p {
     color: white;
     margin-right: 2.5%;
+}
+
+div {
+    display: flex;
+    align-items: center;
 }
