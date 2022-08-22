@@ -1,15 +1,21 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>AMTube</span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" *ngIf="logged" aria-label="Example icon-button with heart icon" (click)="onNotifications()">
+<div style="height: 5%; width:100%; background: rgb(48,67,112); display: flex;">
+  <input type="image" src="assets/images/logo_amtube-nobg.png"
+    style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;">
+
+  <div style="margin-left:65%;width:100%;" *ngIf="logged">
+    <button class="buttonTab"
+      style="background: transparent; padding:none; margin: none; border: none; color: white; height:100%"
+      (click)="onNotifications()">
       <mat-icon>notification_important</mat-icon>
     </button>
-    <button mat-button expand="block" *ngIf="logged" (click)="onMyVideos()">My Videos</button>
-    <button mat-button expand="block" *ngIf="logged" (click)="onSubs()">Subscriptions</button>
-    <button mat-button expand="block" *ngIf="logged" (click)="onProfile()">Profile</button>
-    <button mat-button expand="block" *ngIf="logged"  (click)="onLogout()">Logout</button>
-  </mat-toolbar-row>
-</mat-toolbar>
+    <button class="buttonTab" mat-button (click)="onMyVideos()">My Videos</button>
+    <button class="buttonTab" mat-button (click)="onSubs()">Subscriptions</button>
+    <button class="buttonTab" mat-button (click)="onProfile()">Profile</button>
+    <button class="buttonTab" mat-button (click)="onLogout()">Logout</button>
+  </div>
+  <div style="margin-left:75%;width:100%;" *ngIf="!logged">
 
-
+    <button class="buttonTab" mat-button (click)="onLogin()" style="margin-right:10%">Login</button>
+    <button class="buttonTab" mat-button (click)="onRegister()">Sign Up</button>
+  </div>
+</div>

@@ -1,4 +1,21 @@
-.example-spacer {
-  flex: 1 1 auto;
+.buttonTab{
+  background-color: #5c6c8c;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 5 vw;
+  font-size: 1.0vw;
+  font-weight: normal;
+  width: fit-content;
+  height: 80%;
+  margin-right: 0.2vw;
+  margin-left:auto;
+  margin-top:0.2vw;
+  
 }
-
+.buttonTab:hover{
+  background-color: #949cb3;
+  color:black
+}

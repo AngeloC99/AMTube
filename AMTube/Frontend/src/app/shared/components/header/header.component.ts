@@ -29,6 +29,12 @@ export class HeaderComponent implements OnInit {
     this.userService.logout();
     this.router.navigateByUrl('login');
   }
+  onLogin() {
+    this.router.navigateByUrl('login');
+  }
+  onRegister() {
+    this.router.navigateByUrl('register');
+  }
 
   onMyVideos() {
     this.router.navigateByUrl('my-videos');

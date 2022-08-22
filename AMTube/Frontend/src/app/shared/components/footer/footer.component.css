@@ -6,9 +6,8 @@ span.panelTitleTxt
     margin: 0 auto;
 }
 
-div
-{
-    width: 100%;
-    position: fixed;
-    bottom: 0;
+
+p{
+    color: white;
+    margin-right: 2.5%;
 }
