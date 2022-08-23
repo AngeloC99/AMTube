@@ -10,7 +10,7 @@ import { Video } from 'src/app/model/video.model';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  videos = [1,2,3,4,5,6,7,8]
+  videos = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
   constructor(private videoService: VideoService, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
@@ -22,6 +22,10 @@ export class HomeComponent implements OnInit {
 
   onLogout() {
     this.userService.logout();
+    this.router.navigateByUrl('login');
+  }
+
+  showVideo(){
     this.router.navigateByUrl('login');
   }
 }

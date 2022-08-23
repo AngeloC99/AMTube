@@ -1,0 +1,37 @@
+.row {
+    margin-left: 10%;
+    display: flex;
+    width: 90%;
+    margin-top: 5%
+}
+
+.row .videoElement {
+    width: 16.25%;
+    height: 10vw;
+    margin-right: 5%;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    border: solid black 1px;
+    cursor: pointer;
+}
+.row .videoElement:hover{
+    background-color: #949cb3;
+    color:black;
+    display: block;
+  }
+
+.text {
+    display: block;
+    margin-top: 1vw;
+}
+
+.title {
+    font-size: large;
+    font-weight: light;
+}
+
+.profile {
+    font-size: medium;
+    font-weight: bold;
+}

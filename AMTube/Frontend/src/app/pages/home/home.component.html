@@ -1,3 +1,38 @@
 <div style="display: flex; justify-content:center; align-content:space-around; margin-top:5%">
     <h1 style="color: #304370; vertical-align:middle; ">Latest Videos</h1>
 </div>
+<div *ngFor="let video of videos; let i = index" style="margin-bottom: 5vw;">
+    <div *ngIf="i % 4 == 0" class="row">
+        <div *ngIf="i < videos.length" class="videoElement" (click)="showVideo()">
+            <img src="/assets/images/logo_amtube.png"
+                style='max-width:100%;max-height: 5vw; min-height:5vw; margin:auto; '>
+
+            <span class="text title">Video Title</span>
+            <span class="text profile">Profile Name</span>
+        </div>
+        <div *ngIf="i + 1 < videos.length" class="videoElement">
+            <img src="/assets/images/thumb.jpg " style='max-width:100%;max-height: 5vw; min-height:5vw; margin:auto; '>
+
+            <span class="text title">Video Title</span>
+            <span class="text profile">Profile Name</span>
+
+        </div>
+        <div *ngIf="i + 2 < videos.length" class="videoElement">
+            <img src="/assets/images/logo_amtube-triangle.png"
+                style='max-width:100%;max-height: 5vw; min-height:5vw; margin:auto; '>
+
+
+            <span class="text title">Video Title</span>
+            <span class="text profile">Profile Name</span>
+        </div>
+        <div *ngIf="i + 3 < videos.length" class="videoElement">
+            <img src="/assets/images/logo_amtube.png"
+                style='max-width:100%;max-height: 5vw; min-height:5vw; margin:auto; '>
+
+
+            <span class="text title">Video Title</span>
+            <span class="text profile">Profile Name</span>
+
+        </div>
+    </div>
+</div>
