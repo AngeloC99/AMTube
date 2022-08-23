@@ -1,8 +1,19 @@
-<div style="height: 5%; width:100%; background: linear-gradient(to right, rgba(48,67,112,1), rgba(48,67,112,0.9)); display: flex;">
-  <input type="image" src="assets/images/logo_amtube-nobg.png"
-    style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;" (click)="onHome()" [disabled]="!logged">
+<div
+  style="height: 5%; width:100%; background: linear-gradient(to right, rgba(48,67,112,1), rgba(48,67,112,0.9)); display: flex;">
+  <div>
 
-  <div style="margin-left:65%;width:100%;" *ngIf="logged">
+  </div>
+  <input type="image" src="assets/images/logo_amtube-nobg.png"
+    style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;" (click)="onHome()"
+    [disabled]="!logged">
+
+
+  <div style="width:100%;" *ngIf="logged" class="navbar">
+    <div class="search-container">
+      <input type="text" placeholder="Search..">
+    <button type="submit"><i
+        class="fa fa-search"></i></button>
+    </div>
     <button class="buttonTab"
       style="background: transparent; padding:none; margin: none; border: none; color: white; height:100%"
       (click)="onNotifications()">
