@@ -15,35 +15,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Enumeration;
 
 @Service
 public class VerificationService {
     private final static Logger logger = LoggerFactory.getLogger(VerificationService.class);
 
     @Retryable(backoff = @Backoff(delay = 5000, multiplier = 4.0), maxAttempts = 4)
-    public ResponseEntity<String> verificationRequest(HttpServletRequest request) throws URISyntaxException {
+    public ResponseEntity<String> verificationRequest(String token) throws URISyntaxException {
         URI uri = new URI("http", null, "localhost", 8080, "/auth/verification", null, null);
         logger.info("Sending request for verification to " + uri + "...");
 
         HttpHeaders headers = new HttpHeaders();
-        Enumeration<String> headerNames = request.getHeaderNames();
 
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            headers.set(headerName, request.getHeader(headerName));
-        }
+        headers.setAccessControlAllowOrigin("*");
+        logger.info("Authorization header: " + token);
+        headers.set("Authorization", token);
+        logger.info("Verification request's headers: " + headers.toString());
 
         HttpEntity<String> httpEntity = new HttpEntity<>(null, headers);
         ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(factory);
         try {
             ResponseEntity<String> serverResponse = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.put(HttpHeaders.CONTENT_TYPE, serverResponse.getHeaders().get(HttpHeaders.CONTENT_TYPE));
             return serverResponse;
         } catch (HttpStatusCodeException e) {
             logger.error(e.getMessage());
