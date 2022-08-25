@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-register',
@@ -35,14 +36,18 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onRegister(): void {
-    this.userService.registration(this.registrationForm.value).subscribe(() =>{
-      this.registrationForm.reset();
-      this.router.navigateByUrl('login');
-    },
-        (error => console.error(error))
-    );
+  onRegister() {
+    this.userService.registration(this.registrationForm.value).subscribe(() => {
+          this.registrationForm.reset();
+          this.router.navigateByUrl('login');
+        },
+        (err: HttpErrorResponse) => {
+            console.error('Registration request error: ' + err.status);
+            alert("ERROR: this user already exists!");
+            this.registrationForm.reset();
+        });
   }
+
 
   goLogin() {
     this.router.navigateByUrl('login')

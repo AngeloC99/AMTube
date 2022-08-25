@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
 
   ngAfterViewChecked() {
     if(localStorage.getItem(AUTH_TOKEN) !== 'auth-token' && localStorage.getItem(AUTH_TOKEN) !== null){
-      console.log(AUTH_TOKEN);
       this.logged = true;
     }
     else this.logged = false;
