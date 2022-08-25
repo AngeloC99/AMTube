@@ -59,6 +59,11 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<User> register(@Valid @RequestBody User user) {
+        Optional<User> u1 = this.userRepository.findByUsername(user.getUsername());
+        Optional<User> u2 = this.userRepository.findByEmail(user.getEmail());
+        if (u1.isPresent() || u2.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         this.userRepository.save(user);
         return ResponseEntity.status(201).build();
