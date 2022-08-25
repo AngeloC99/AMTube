@@ -72,6 +72,7 @@
     <div style="display: flex; justify-content:center; align-content:space-around;">
       <h1 style="color: #304370; vertical-align:middle; ">My Videos</h1>
     </div>
+    
     <div *ngFor="let video of myVideos">
       <div class="myVideo">
         <div class="imgContainer" *ngIf="video.id" (click)="goToVideo(video.id)">

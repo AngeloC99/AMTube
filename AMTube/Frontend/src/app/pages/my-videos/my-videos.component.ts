@@ -49,27 +49,8 @@ export class MyVideosComponent implements OnInit {
       if (droppedFile.fileEntry.isFile && this.isFileAllowed(droppedFile.fileEntry.name, ['.mp4'])) {
         this.videofileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         this.videofileEntry.file((file: File) => {
-
-          // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
-
           this.videoUploaded = true;
-          /**
-           // You could upload it like this:
-           const formData = new FormData()
-           formData.append('logo', file, relativePath)
-
-           // Headers
-           const headers = new HttpHeaders({
-            'security-token': 'mytoken'
-          })
-
-           this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-           .subscribe(data => {
-            // Sanitized logo returned from backend
-          })
-           **/
-
+          
         });
       } else {
         // It was a directory (empty directories are added, otherwise only files)
@@ -115,13 +96,8 @@ export class MyVideosComponent implements OnInit {
 
   public fileLeave(event: any) {
     console.log(event);
-  }/*
-  onUpload() {
-    this.videoService.uploadThumbnail(this.thumbnailSelectedFile, this.videoId).subscribe(data => {
-      console.log("Hello");
-      this.matSnackBar.open("Thumbnail Uploaded Successfully", "OK");
-    })
-  }*/
+  }
+  
   uploadVideo() {
     // Upload the video calling the backend
     this.uploading = true;

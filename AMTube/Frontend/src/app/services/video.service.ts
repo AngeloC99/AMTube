@@ -44,4 +44,7 @@ export class VideoService {
   deleteVideo(videoId: string): Observable<Video>{
     return this.httpClient.delete<Video>(URL.VIDEOS + "/" + videoId);
   }
+  getAllVideos(): Observable<Video[]>{
+    return this.httpClient.get<Video[]>(URL.VIDEOS);
+  }
 }
