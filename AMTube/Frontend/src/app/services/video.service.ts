@@ -11,19 +11,24 @@ export class VideoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  uploadVideo(fileEntryVideo: File): Observable<any> {
+  uploadVideo(fileEntryVideo: File, fileEntryThumbnail: File): Observable<Video>{
     const formData = new FormData();
-    formData.append('file', fileEntryVideo, fileEntryVideo.name);   // same name "file" as request parameter in Video microservice
+    formData.append('videoFile', fileEntryVideo, fileEntryVideo.name);
+    formData.append('thumbnail', fileEntryThumbnail, fileEntryThumbnail.name);
     return this.httpClient.post<Video>(URL.VIDEOS, formData);
+  }
+  editVideo(fileEntryVideo: File, videoId: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('videoFile', fileEntryVideo, fileEntryVideo.name);   // same name "file" as request parameter in Video microservice
+    return this.httpClient.post<Video>(URL.VIDEO + "/" + videoId, formData);
   }
 
 
-  uploadThumbnail(fileEntry: File, videoId: string): Observable<any> {
+  editThumbnail(fileEntry: File, videoId: string): Observable<any> {
     const formData = new FormData();
     formData.append('thumbnail', fileEntry, fileEntry.name);
-    formData.append('videoId', videoId);
-    console.log(URL.VIDEOS + "/" + videoId + "/thumbnails");
-    return this.httpClient.post<Video>(URL.THUMBNAILS, formData);
+    console.log(URL.VIDEOS + "/thumbnails"+ "/" + videoId );
+    return this.httpClient.post<Video>(URL.THUMBNAILS + "/" + videoId, formData);
   }
 
   getVideo(videoId: String): Observable<Video>{
@@ -32,5 +37,11 @@ export class VideoService {
 
   saveVideo(videoMetaData: Video, videoId: string): Observable<Video> {
     return this.httpClient.put<Video>(URL.VIDEOS + "/" + videoId, videoMetaData);
+  }
+  getVideosByUserId(userId: String): Observable<Video[]>{
+    return this.httpClient.get<Video[]>(URL.VIDEOS_BY_USER_ID + "/" + userId);
+  }
+  deleteVideo(videoId: string): Observable<Video>{
+    return this.httpClient.delete<Video>(URL.VIDEOS + "/" + videoId);
   }
 }

@@ -48,10 +48,12 @@ export class SaveVideoDetailsComponent implements OnInit {
   }
 
   onUpload() {
+    /*
     this.videoService.uploadThumbnail(this.selectedFile, this.videoId).subscribe( data => {
       console.log("Hello");
       this.matSnackBar.open("Thumbnail Uploaded Successfully", "OK");
     })
+    */
   }
 
   saveVideo() {

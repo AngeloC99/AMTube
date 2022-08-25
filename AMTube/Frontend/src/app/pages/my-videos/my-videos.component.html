@@ -1,24 +1,92 @@
-<div class="center">
-  <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
-                 (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-      Drag and Drop the video you want to upload here or
-      <button type="button" (click)="openFileSelector()">Browse Files</button>
-    </ng-template>
-  </ngx-file-drop>
-  <div class="upload-table">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Video Name</th>
-      </tr>
-      </thead>
-      <tbody class="upload-name-style">
-      <tr *ngFor="let item of files; let i=index">
-        <td><strong>{{ item.relativePath }}</strong></td>
-      </tr>
-      </tbody>
-    </table>
+<div class="myVideos">
+  <div class="videosBox">
+    <div style="display: flex; justify-content:center; align-content:space-around;">
+      <h1 style="color: #304370; vertical-align:middle; margin-bottom:5%; ">Upload a new Video</h1>
+    </div>
+    <form [formGroup]="saveVideoDetailsForm">
+      <div class="uploadTextInput">
+        <label style="margin-left:5%; margin-right: 11.9%"><b>Title:</b></label>
+        <input formControlName="title" minlength="5" maxlength="40" matInput placeholder="Enter title..." value=""
+          style="width:70%">
+      </div>
+      <div class="uploadTextInput">
+        <label style="margin-left:5%; margin-right: 5%"><b>Description:</b></label>
+        <textarea formControlName="description" minlength="0" maxlength="255" matInput
+          placeholder="Enter Description..." value="" style="width:70%; height:4vw"></textarea>
+      </div>
+      <div class="thumbnail">
+        <label style="margin-left:5%; margin-right: 25%"><b>Upload Thumbnail:</b></label>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"
+            (change)="onFileSelected($event)">
+        </div>
+      </div>
+    </form>
+    <div class="videoUpload">
+      <div style="width: 100%;">
+        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
+          (onFileLeave)="fileLeave($event)">
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector"
+            style="background-color:#304370">
+            <div style="display: flex; width:70%;">
+              <p style="color: black;">Drag and Drop here the video you want to upload or
+              </p>
+              <button class="buttonTab" type="button" (click)="openFileSelector()">Browse Files</button>
+            </div>
+          </ng-template>
+        </ngx-file-drop>
+      </div>
+      <div style="display: flex; align-content:center;">
+        <label style="margin:5%;"><b>Video Name:</b></label>
+        <p *ngIf="videoUploaded" class="videoTitle">{{videofiles[0].relativePath }}</p>
+
+      </div>
+
+
+    </div>
+    <div class="buttonArea">
+      <button class="buttonTab" mat-button (click)="uploadVideo()"
+        [disabled]="!videoUploaded || !thumbnailSelected || uploading">Upload</button>
+    </div>
+    <div style="width: 100%">
+      <div *ngIf="uploading" class="loader"></div>
+    </div>
+
+    <div *ngIf="saveVideoDetailsForm.get('title')?.value=='' || saveVideoDetailsForm.get('description')?.value==''"
+      class="pleaseSelectBox">
+      <h4 style="color: black; text-align: center; text-justify: center">Please fill the fields:
+      </h4>
+      <p *ngIf="saveVideoDetailsForm.get('title')?.value==''" class="centerText" style="color: #304370; ">Title</p>
+      <p *ngIf="saveVideoDetailsForm.get('description')?.value==''" class="centerText" style="color: #304370;">
+        Description</p>
+    </div>
+    <div *ngIf="!videoUploaded || !thumbnailSelected" class="pleaseSelectBox">
+      <h4 style="color: black; text-align: center; text-justify: center">Please select:
+      </h4>
+      <p *ngIf="!videoUploaded" class="centerText" style="color: #304370; ">file for your Video</p>
+      <p *ngIf="!thumbnailSelected" class="centerText" style="color: #304370;"> file for your Thumbnail</p>
+    </div>
   </div>
-  <button mat-button (click)="uploadVideo()" *ngIf="fileUploaded">Upload Video</button>
-</div>
+
+  <div class="videosBox" style="overflow-y: scroll;">
+    <div style="display: flex; justify-content:center; align-content:space-around;">
+      <h1 style="color: #304370; vertical-align:middle; ">My Videos</h1>
+    </div>
+    <div *ngFor="let video of myVideos">
+      <div class="myVideo">
+        <div class="imgContainer" *ngIf="video.id" (click)="goToVideo(video.id)">
+          <img src="{{video.thumbnailUrl}}" style="height:100%; width:100%;">
+          <div class="play"><img src="assets\images\logo_amtube-triangle.png" style="height:100%; width:100%;" /> </div>
+        </div>
+        <div style="display: block; width:70%">
+          <p class="videoText "><b>Title: </b>{{video.title}}</p>
+          <p class="videoText " *ngIf="video.likes"><b>Likes: </b>{{video.likes.length}}</p>
+          <p class="videoText "><b>Uploaded: </b>{{video.date}}</p>
+        </div>
+        <div style="display: block; height:5.5vw; width:fit-content">
+          <button class="videoButton" mat-button *ngIf="video.id" (click)="deleteVideo(video.id)">Delete Video</button>
+          <button class="videoButton" mat-button *ngIf="video.id" (click)="editVideo(video.id)">Edit Video</button>
+        </div>
+      </div>
+    </div>
+  </div>

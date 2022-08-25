@@ -5,9 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import AMTube.video.repositories.VideoRepository;
 
-import javax.swing.text.html.Option;
-import java.util.Optional;
-
 @Service
 public class VideoService {
 
@@ -19,19 +16,25 @@ public class VideoService {
         this.videoRepository = videoRepository;
     }
 
-
-    public Video uploadVideo(MultipartFile multipartFile) {
-        String videoUrl = s3Service.uploadFile(multipartFile);
+    public Video uploadVideo(MultipartFile multipartFileVideo, MultipartFile multipartFileThumbnail) {
+        String videoUrl = s3Service.uploadFile(multipartFileVideo);
+        String thumbnailUrl = s3Service.uploadFile(multipartFileThumbnail);
         Video video = new Video();
         video.setVideoUrl(videoUrl);
+        video.setThumbnailUrl(thumbnailUrl);
         return videoRepository.save(video);
     }
 
-    public String uploadThumbnail(MultipartFile file, String videoId) {
-        Optional<Video> savedVideo = videoRepository.findById(Long.parseLong(videoId));
+    public Video editVideo(MultipartFile multipartFile, Video video) {
+        String videoUrl = s3Service.uploadFile(multipartFile);
+        video.setVideoUrl(videoUrl);
+        return videoRepository.save(video);
+        
+    }
+
+    public Video editThumbnail(MultipartFile file,  Video video) {
         String thumbnailUrl = s3Service.uploadFile(file);
-        savedVideo.get().setThumbnailUrl(thumbnailUrl);
-        videoRepository.save(savedVideo.get());
-        return thumbnailUrl;
+        video.setThumbnailUrl(thumbnailUrl);
+        return videoRepository.save(video);
     }
 }

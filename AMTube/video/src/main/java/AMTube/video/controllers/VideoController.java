@@ -48,14 +48,30 @@ public class VideoController {
     }
 
     @PostMapping
-    public ResponseEntity<Video> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Video> uploadVideo(@RequestParam("videoFile") MultipartFile videoFile,
+            @RequestParam("thumbnail") MultipartFile thumbnailFile) throws IOException {
         logger.info("new Video");
-        return ResponseEntity.status(201).body(videoService.uploadVideo(file));
+        return ResponseEntity.status(201).body(videoService.uploadVideo(videoFile, thumbnailFile));
     }
 
-    @PostMapping("/thumbnails")
-    public ResponseEntity<String> uploadThumbnail(@RequestParam("thumbnail") MultipartFile file, @RequestParam("videoId") String videoId) {
-        return ResponseEntity.status(201).body(videoService.uploadThumbnail(file, videoId));
+    @PutMapping("/video/{videoId}")
+    public ResponseEntity<Video> editVideoFile(@RequestParam("videoFile") MultipartFile file,
+            @PathVariable Long videoId) {
+        Optional<Video> video = this.videoRepository.findById(videoId);
+        if (video.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(201).body(videoService.editVideo(file, video.get()));
+    }
+
+    @PutMapping("/thumbnails/{videoId}")
+    public ResponseEntity<Video> editThumbnail(@RequestParam("thumbnail") MultipartFile file,
+            @PathVariable Long videoId) {
+        Optional<Video> video = this.videoRepository.findById(videoId);
+        if (video.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(201).body(videoService.editThumbnail(file, video.get()));
     }
 
     @GetMapping("/{videoId}")
@@ -67,7 +83,7 @@ public class VideoController {
         List<Comment> comments = this.commentRepository.findByVideoId(videoId);
         List<UserLike> likes = this.userLikeRepository.findByVideoId(videoId);
         List<Long> ids = new ArrayList<Long>();
-        for (UserLike like: likes){
+        for (UserLike like : likes) {
             ids.add(like.getUserId());
         }
         Video vid = video.get();
@@ -75,8 +91,6 @@ public class VideoController {
         vid.setLikes(ids);
         return ResponseEntity.ok(vid);
     }
-
-
 
     @PutMapping("/{videoId}")
     public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) {
@@ -106,12 +120,19 @@ public class VideoController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/findByUserId/{userId}")
     public ResponseEntity<List<Video>> getAllVideosByUserId(@PathVariable Long userId) {
         List<Video> videos = this.videoRepository.findByPublisherId(userId);
+        for (int i = 0; i < videos.size(); i++) {
+            List<Long> ids = new ArrayList<Long>();
+            for (UserLike like : this.userLikeRepository.findByVideoId(videos.get(i).getId())) {
+                ids.add(like.getUserId());
+            }
+            videos.get(i).setLikes(ids);
+        }
         return ResponseEntity.ok(videos);
     }
-
 
     @PostMapping("/{videoId}/comments")
     public ResponseEntity<Comment> saveComment(@PathVariable Long videoId, @RequestBody Comment newComment) {
@@ -153,7 +174,7 @@ public class VideoController {
         for (UserLike like : likes) {
             if (like.getUserId() == userId) {
                 this.userLikeRepository.deleteById(like.getId());
-                return ResponseEntity.status(200).body(like); 
+                return ResponseEntity.status(200).body(like);
             }
         }
         return ResponseEntity.notFound().build();
@@ -163,11 +184,11 @@ public class VideoController {
     @DeleteMapping("/{videoId}/comments/{commentId}")
     public ResponseEntity<Comment> deleteComment(@PathVariable Long videoId, @PathVariable Long commentId) {
         try {
-            if(!this.commentRepository.existsById(commentId)){
+            if (!this.commentRepository.existsById(commentId)) {
                 return ResponseEntity.notFound().build();
             }
             this.commentRepository.deleteById(commentId);
-            return ResponseEntity.status(200).build(); 
+            return ResponseEntity.status(200).build();
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
