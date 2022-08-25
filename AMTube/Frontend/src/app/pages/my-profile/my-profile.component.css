@@ -1,0 +1,56 @@
+.box {
+    width: 100%;
+    margin-top: 5%;
+    border: solid black 1px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-content: space-around;
+}
+
+.buttonTab {
+    background-color: #5c6c8c;
+    color: white;
+    float: left;
+    border: solid 1px black;
+    border-radius: 0.3vw;
+    outline: none;
+    cursor: pointer;
+    padding: 5 vw;
+    font-size: 1.0vw;
+    font-weight: normal;
+    width: 80%;
+    height: 80%;
+    margin-right: 0.2vw;
+    margin-left: auto;
+    margin-top: 0.2vw;
+
+}
+
+.buttonTab:hover {
+    background-color: #949cb3;
+    color: black;
+}
+
+.profileForm {
+    display: block;
+    justify-content: center;
+    align-content: center;
+    width: 50%;
+    margin-left:25%;
+}
+
+.formElement {
+    padding: 0.2vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:1%;
+    width: 50%;
+    display: flex;
+}
+.text{
+    width: 50%;
+    margin-right: 5%;
+}

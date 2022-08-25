@@ -1,0 +1,36 @@
+.container {
+    width: 100%;
+    display: inline-block;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.text {
+    display: block;
+    margin-top: 20%;
+}
+
+.buttonTab {
+    display: block;
+    background-color: #5c6c8c;
+    color: white;
+    border: solid 1px black;
+    border-radius: 0.5vw;
+    outline: none;
+    cursor: pointer;
+    padding: 1%;
+    font-size: 1.0vw;
+    font-weight: normal;
+    width: fit-content;
+    margin:auto;
+    margin-top: 2%;
+
+}
+
+.buttonTab:hover {
+    background-color: #949cb3;
+    color: black;
+    display: block;
+}

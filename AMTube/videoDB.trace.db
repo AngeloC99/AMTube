@@ -1,3 +1,6 @@
 2022-08-25 13:23:26 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet mi in ... (1243)"; SQL statement:
 update video set date=?, description=?, publisher_id=?, thumbnail_url=?, title=?, video_url=? where id=? [22001-214]
+2022-08-25 18:34:24 jdbc[63]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]VIDEO"; SQL statement:
+VIDEO [42000-214]

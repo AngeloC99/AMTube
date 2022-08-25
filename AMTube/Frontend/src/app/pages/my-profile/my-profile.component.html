@@ -1,1 +1,35 @@
-<p>my-profile works!</p>
+<div class="box">
+    <div class="title">
+        <h1 style="color: #304370; vertical-align:middle; ">My Profile</h1>
+    </div>
+
+    <form [formGroup]="userFormModel" *ngIf="user" class="profileForm">
+        <div class="formElement">
+            <label class="text"><b>New Username:</b></label>
+            <input formControlName="username" minlength="5" maxlength="20" matInput placeholder="{{user.username}}"
+                value="{{user.username}}" style="width:100%" type="username">
+            <p class="text08" color="danger" *ngIf="userFormModel.errors">Username Required!</p>
+        </div>
+        <div class="formElement">
+            <label class="text"><b>New Email:</b></label>
+            <input formControlName="email" type="email" minlength="5" maxlength="30" matInput
+                value="{{user.email}}" style="width:100%">
+            <p class="text08" color="danger" *ngIf="userFormModel.errors">Password Required!</p>
+        </div>
+        <div class="formElement">
+            <label class="text"><b>New Password:</b></label>
+            <input formControlName="newPassword" type="password" minlength="5" maxlength="30" matInput
+                placeholder="Enter your new password..." value="" style="width:100%">
+            <p class="text08" color="danger" *ngIf="userFormModel.errors">Password Required!</p>
+        </div>
+        <div class="formElement">
+            <label class="text"><b>Current Password: *</b></label>
+            <input formControlName="oldPassword" type="password" minlength="5" maxlength="30" matInput
+                placeholder="Enter your password..." value="" style="width:100%">
+            <p class="text08" color="danger" *ngIf="userFormModel.errors">Password Required!</p>
+        </div>
+
+        <button class="buttonTab" mat-button expand="block" color="primary" [disabled]="!userFormModel.valid"
+            style="margin-top:10%" (click)="submit()">Login</button>
+    </form>
+</div>
