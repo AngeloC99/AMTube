@@ -4,6 +4,7 @@ import it.uniroma1.userManagement.models.User;
 import it.uniroma1.userManagement.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,9 +62,15 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         logger.info("{}",user);
-        u.get().setUsername(user.getUsername());
-        u.get().setEmail(user.getEmail());
-        u.get().setPassword(user.getPassword());
+        if(user.getUsername() != null && !user.getUsername().trim().isEmpty()) {
+            u.get().setUsername(user.getUsername());
+        }
+        if(user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
+            u.get().setEmail(user.getEmail());
+        }
+        if(user.getPassword() != null && !user.getPassword().trim().isEmpty()) {
+            u.get().setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        }
         userRepository.saveAndFlush(u.get());
 
         return ResponseEntity.status(200).body(u.get());

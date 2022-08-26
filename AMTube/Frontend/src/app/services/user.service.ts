@@ -61,6 +61,10 @@ export class UserService {
     return this.http.put<User>(URL.USERS, user);
   }
 
+  deleteUser(): Observable<any> {
+    return this.http.delete<User>(URL.USERS+ "/" + localStorage.getItem(USER_ID));
+  }
+
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(URL.USERS);
   }

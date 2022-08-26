@@ -23,13 +23,15 @@
             <p class="text08" color="danger" *ngIf="userFormModel.errors">Password Required!</p>
         </div>
         <div class="formElement">
-            <label class="text"><b>Current Password: *</b></label>
-            <input formControlName="oldPassword" type="password" minlength="5" maxlength="30" matInput
-                placeholder="Enter your password..." value="" style="width:100%">
+            <label class="text"><b>Confirm New Password:</b></label>
+            <input formControlName="newPassConfirmed" type="password" minlength="5" maxlength="30" matInput
+                placeholder="Enter again your new password..." value="" style="width:100%">
             <p class="text08" color="danger" *ngIf="userFormModel.errors">Password Required!</p>
         </div>
 
         <button class="buttonTab" mat-button expand="block" color="primary" [disabled]="!userFormModel.valid"
-            style="margin-top:10%" (click)="submit()">Login</button>
+            style="margin-top:10%" (click)="submit()">Update details</button>
+        <button class="buttonTab" mat-button expand="block" color="primary"
+                style="margin-top:10%" (click)="onDelete()">Delete My Account</button>
     </form>
 </div>

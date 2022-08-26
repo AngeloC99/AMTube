@@ -15,7 +15,7 @@ export class MyProfileComponent implements OnInit {
   username: FormControl = new FormControl("");
   email: FormControl = new FormControl("");
   newPassword: FormControl = new FormControl("");
-  oldPassword: FormControl = new FormControl("");
+  newPassConfirmed: FormControl = new FormControl("");
   user: User;
 
   constructor(
@@ -25,7 +25,7 @@ export class MyProfileComponent implements OnInit {
       username: this.username,
       email: this.email,
       newPassword: this.newPassword,
-      oldPassword: this.oldPassword
+      newPassConfirmed: this.newPassConfirmed
     })
   }
 
@@ -38,30 +38,35 @@ export class MyProfileComponent implements OnInit {
 
   submit() {
     console.log(this.userFormModel.value)
-    if (this.checkPassword()) {
-      if (this.userFormModel.value.username != "") {
-        this.user.username = this.userFormModel.value.username
-      }
-      if (this.userFormModel.value.email != "") {
-        this.user.email = this.userFormModel.value.email
-      }
-      if (this.userFormModel.value.newPassword != "") {
-        this.user.password = this.userFormModel.value.password
-      }
-      this.userService.putUser(this.user).subscribe(data=>{ //NB: funziona, ma non aggiorna la password: la imposta a null
-        this.matSnackBar.open("Your profile has been successfully updated", "OK");
-        //Nota: in questa linea è necessario aggiornare (il token bearer?) affinché sia associato al nuovo username altrimenti crasha perché continua a inviare la richiesta con il vecchio username
-        console.log(data);
-      })
+    if (this.userFormModel.value.username != "") {
+      this.user.username = this.userFormModel.value.username
+    }
+    if (this.userFormModel.value.email != "") {
+      this.user.email = this.userFormModel.value.email
+    }
+    if (this.checkPassword() && this.userFormModel.value.newPassword != "") {
+      this.user.password = this.userFormModel.value.newPassword
     }
     else{
       this.matSnackBar.open("Please input the correct password", "OK");
     }
-
-
-    
+    this.userService.putUser(this.user).subscribe(data=>{ //NB: funziona, ma non aggiorna la password: la imposta a null
+      this.matSnackBar.open("Your profile has been successfully updated: a new login is required to verify your identity.", "OK");
+      //Nota: in questa linea è necessario aggiornare (il token bearer?) affinché sia associato al nuovo username altrimenti crasha perché continua a inviare la richiesta con il vecchio username
+      console.log(data);
+      this.userService.logout();
+      this.router.navigateByUrl("login");
+    })
   }
+
   checkPassword() {
-    return this.userFormModel.value.oldPassword != "" //&& check per controllare se la password è corretta 
+    return this.userFormModel.value.newPassword == this.userFormModel.value.newPassConfirmed; //&& check per controllare se la password è corretta
+  }
+
+  onDelete() {
+    this.userService.deleteUser().subscribe( () => {
+      this.matSnackBar.open("We have successfully deleted your account!", "OK");
+      this.router.navigateByUrl('login');
+    })
   }
 }
