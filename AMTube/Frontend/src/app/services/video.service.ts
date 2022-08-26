@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {URL} from "../constants";
+import {URL, URL_BASE} from "../constants";
 import {Observable} from "rxjs";
 import {Video} from "../model/video.model";
+import { VideoComment } from '../model/videoComment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,14 @@ export class VideoService {
   }
   getAllVideos(): Observable<Video[]>{
     return this.httpClient.get<Video[]>(URL.VIDEOS);
+  }
+  likeVideo(videoId: string, userId: string): Observable<any>{
+    return this.httpClient.post<Video>(URL.VIDEOS+"/"+videoId+"/"+URL.LIKE+'/'+userId,null);
+  }
+  unlikeVideo(videoId: string, userId: string): Observable<any>{
+    return this.httpClient.delete<Video>(URL.VIDEOS+"/"+videoId+"/"+URL.LIKE+'/'+userId);
+  }
+  addComment(videoId: string, commentMetadata: VideoComment): Observable<VideoComment>{
+    return this.httpClient.post<VideoComment>(URL.VIDEOS+"/"+videoId+"/"+URL.COMMENTS, commentMetadata);
   }
 }

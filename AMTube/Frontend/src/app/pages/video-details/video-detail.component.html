@@ -1,19 +1,57 @@
-<div fxLayout="row">
-    <div fxFlex="50%" class="video-details">
-        <app-video-player *ngIf="videoAvailable" [videoUrl]="videoUrl"></app-video-player>
-        <div class="mat-title">{{videoTitle}}</div>
-        <div fxLayout="row">
-            <div fxFlex="50%">
-                <div class="mat-subheader">Description:</div>
-                <span>{{videoDescription}}</span>
+<div *ngIf="videoAvailable">
+    <div class="boxVideo">
+        <div class="details">
+            <div class="playerContainer">
+                <app-video-player *ngIf="videoAvailable" [videoUrl]="videoUrl" class="videoPlayer"></app-video-player>
             </div>
-            <div fxFlex="50%">
-                <div>Upload Date: {{videoDate}}</div>
-                <div>Likes: {{likesCount}}</div>
+            <div class="detailsContainer">
+                <div class="title">{{videoTitle}}</div>
+                <div class="description">{{videoDescription}}</div>
+                <div class="subtitleInfo">
+                    <div class="dateLikeContainer">
+                        <div class="date">
+                            <div style="margin-right:1vw;">Upload Date:</div>{{videoDate}}
+                        </div>
+                        <div class="likeContainer">
+                            <div class="likes">
+                                <div style="margin-right:1vw;">Likes:</div> {{likesCount}}
+                            </div>
+                            <button class="likeButton" (click)="like()" style="border: solid 0.01vw #304370;">
+                                <div *ngIf=" !liked" class="fa likeButton">&#xf087;
+                                </div>
+                                <div *ngIf="liked" class="fa likeButton active">&#xf087;</div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="userDetailsContainer">
+                        <div class="userLogo" (click)="gotoUserProfile(publisherUserId)">
+                            {{publisherUsername.charAt(0).toUpperCase()}}
+                        </div>
+                        <div class="username" (click)="gotoUserProfile(publisherUserId)">{{publisherUsername}} </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div fxFlex="5%"></div>
-    <div fxFlex="5%"></div>
+    <div class="boxComments">
+        <form [formGroup]="newCommentForm" class="newCommentForm">
+            <div class="userLogo2">
+                {{currentUser.username.charAt(0).toUpperCase()}}
+            </div>
+            <div class="uploadTextInput">
+                <textarea formControlName="comment" minlength="1" maxlength="255" matInput
+                    placeholder="Write a new comment...." value=""></textarea>
+                <button class="commentSubmit" (click)="newComment()">Publish</button>
+            </div>
+        </form>
+        <div class="commentContainer" *ngFor="let comment of videoComments">
+            <div class="userDetailsContainer" style=" margin-top:0px">
+                <div class="userLogo"(click)="gotoUserProfile(comment.publisherId)">
+                    {{comment.publisherUsername.charAt(0).toUpperCase()}}
+                </div>
+                <div class="username" (click)="gotoUserProfile(comment.publisherId)">{{comment.publisherUsername}} </div>
+            </div>
+            <div class="comment">{{comment.text}}</div>
+        </div>
+    </div>
 </div>
-

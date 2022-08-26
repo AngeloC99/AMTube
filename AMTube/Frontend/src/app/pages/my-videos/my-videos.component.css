@@ -5,8 +5,9 @@
 
 .videosBox {
     margin: 5%;
+    margin-bottom: 0%;
     width: 40%;
-    height: 38vw;
+    height: 40vw;
     border: solid black 1px;
 }
 
@@ -62,7 +63,13 @@
     background-color: #949cb3;
     color: black
 }
-
+input{
+    font-size: large;
+}
+textarea{
+    font-size: large;
+    resize: none;
+}
 .videoTitle {
     margin-top: 5%;
     margin-left: 25%;
