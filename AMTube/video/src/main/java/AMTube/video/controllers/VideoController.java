@@ -139,6 +139,7 @@ public class VideoController {
             return ResponseEntity.notFound().build();
         }
         newComment.setVideoId(videoId);
+        newComment.setDate(LocalDate.now());
         return ResponseEntity.status(201).body(this.commentRepository.save(newComment));
     }
 

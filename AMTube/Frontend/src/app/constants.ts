@@ -10,6 +10,8 @@ export const URL = {
   THUMBNAILS: URL_BASE + 'videos/thumbnails',
   VIDEOS_BY_USER_ID: URL_BASE+'videos/findByUserId',
   USERS: URL_BASE + 'users',
+  LIKE: 'like',
+  COMMENTS: 'comments'
 };
 
 export const X_AUTH = 'X-Auth';

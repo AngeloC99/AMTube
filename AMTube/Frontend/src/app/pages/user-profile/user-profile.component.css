@@ -1,0 +1,139 @@
+.topBox {
+    margin-top: 5%;
+    width: 100%;
+    padding-bottom: 2vw;
+    border-bottom: solid gray 1px;
+    display: flex;
+}
+
+.userDetailsContainer {
+    max-width: 30vw;
+    width: fit-content;
+    min-width: 20vw;
+    height: 3vw;
+    margin-top: 5%;
+    margin-left:10%;
+    display: flex;
+    align-content: center;
+    border-radius: 1vw;
+}
+
+.userLogo {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: #000066;
+    border: solid 0.2vw #000066;
+    background-color: lightblue;
+    border-radius: 100%;
+    width: 2vw;
+    height: 2vw;
+    margin-left: 5%;
+}
+
+.username {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    color: #000099;
+    font-size: 1.5vw;
+    font-weight: bold;
+    max-width: 25vw;
+    margin-right: auto;
+    margin-left: 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2vw;
+    cursor: pointer;
+}
+
+.buttonSubscribe {
+    background-color: #5c6c8c;
+    color: white;
+    float: left;
+    border: solid 1px black;
+    border-radius: 0.3vw;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.0vw;
+    font-weight: normal;
+    width: 7vw;
+    height: 2vw;
+    margin-left: auto;
+    margin-right: 10%;
+
+}
+
+.buttonSubscribe:hover {
+    opacity: 0.7;
+}
+.row {
+    margin-left: 10%;
+    display: flex;
+    width: 90%;
+    margin-top: 5%
+}
+
+.row .videoElement {
+    width: 16.25%;
+    height: 10vw;
+    margin-right: 5%;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    border: solid black 1px;
+    cursor: pointer;
+}
+.row .videoElement:hover{
+
+    opacity:0.8;
+    background-color: #949cb3;
+    color:black;
+    display: block;
+  }
+  .row .videoElement:hover .play{display:block} .imgContainer
+  .play{
+      position: absolute;
+      display:none;
+      height: 4vw;
+      max-height:4vw;
+      width: 4vw;
+      max-width:4vw;
+      top:3vw;
+      left:5.5vw;
+  }
+  .textContainer{
+    width: 90%;
+    margin: auto;
+    display: inline-block;
+  }
+.text {
+    display: block;
+    margin-top: 5%;
+    width: 100%;
+    font-size: 0.9vw;
+    max-height: 2vw;
+    text-align: center;
+    text-justify: center;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    display: block;
+    word-break: break-word;
+}
+
+.title {
+    font-weight: light;
+}
+.imgContainer {
+    position:relative;
+    float:left;
+    height:5vw;
+    max-width: 100%;
+    min-width: 100%;
+    cursor: pointer;
+    opacity: 1;
+}

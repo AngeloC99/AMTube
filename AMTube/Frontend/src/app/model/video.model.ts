@@ -1,4 +1,4 @@
-import { Comment } from './comment.model';
+import { VideoComment } from './videoComment.model';
 
 export interface Video {
   id?: number;
@@ -8,6 +8,6 @@ export interface Video {
   publisherId: number;
   thumbnailUrl?: string;
   videoUrl?: string;
-  comments?: Array<Comment>;
+  comments?: Array<VideoComment>;
   likes?: Array<number>;
 }

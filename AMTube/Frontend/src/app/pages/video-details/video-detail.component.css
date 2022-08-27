@@ -1,4 +1,254 @@
-.video-details {
-    margin-top: 40px;
-    margin-left: 460px;
+.boxVideo {
+    margin: 5%;
+    width: 100%;
+    padding-bottom: 2vw;
+    border-bottom: solid gray 1px;
+}
+
+.details {
+    margin: auto;
+    display: flex;
+    width: 100%;
+}
+
+.videoPlayer {
+    width: 100%;
+    height: 100%;
+}
+
+.playerContainer {
+    margin-left: 2%;
+    margin-top: 2%;
+    width: 50vw;
+    height: 28.13vw;
+}
+
+.detailsContainer {
+    display: block;
+    margin-top: 8%;
+    margin-left: 5%;
+    width: 35%;
+}
+
+.title {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 6%;
+    word-break: break-word;
+}
+
+.description {
+    width: 100%;
+    height: 5vw;
+    font-size: medium;
+    font-weight: normal;
+    text-align: start;
+    margin-bottom: 3%;
+    overflow-y: hidden;
+    word-break: break-word;
+}
+
+.subtitleInfo {
+    width: 100%;
+    display: block;
+    align-content: center;
+}
+
+.dateLikeContainer {
+    width: 100%;
+    display: flex;
+    align-content: center;
+}
+
+.date {
+    display: flex;
+    font-size: 1vw;
+    font-weight: bold;
+    margin-top: 0.5vw;
+    text-align: center;
+
+}
+
+.likes {
+    display: flex;
+    font-size: 1vw;
+    font-weight: bold;
+    color: #304370;
+    margin-top: 0.5vw;
+    margin-right: 1vw;
+
+}
+
+.likeButton {
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.5vw;
+    font-weight: bold;
+    color: #304370;
+}
+
+.likeButton:hover {
+    opacity: 0.7;
+    color: green;
+}
+
+.active {
+    color: green;
+}
+
+.likeContainer {
+    display: flex;
+    margin-left: auto;
+}
+
+.active:hover {
+    opacity: 0.7;
+    -webkit-text-stroke-width: 2px red;
+    text-shadow: -2px -2px 0 red,
+        2px -2px 0 red,
+        -2px 2px 0 red,
+        2px 2px 0 red;
+
+}
+
+.userDetailsContainer {
+    max-width: 30vw;
+    width: fit-content;
+    min-width: 20vw;
+    height: 4vw;
+    margin-top: 5%;
+    padding: 0.5vw;
+    display: flex;
+    align-content: center;
+    
+    border-radius: 1vw;
+}
+
+.userLogo {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: #000066;
+    border: solid 0.2vw #000066;
+    background-color: lightblue;
+    border-radius: 100%;
+    width: 2vw;
+    height: 2vw;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5%;
+    cursor: pointer;
+}
+.userLogo:hover {
+    opacity: 0.7;
+}
+.userLogo2 {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: #000066;
+    border: solid 0.2vw #000066;
+    background-color: lightblue;
+    border-radius: 100%;
+    width: 2vw;
+    height: 2vw;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5%;
+}
+.username {
+    display: flex;
+    align-items: center;
+    justify-content:start;
+    color: #000099;
+    font-size: 1.5vw;
+    font-weight: bold;
+    max-width: 25vw;
+    margin: auto;
+    margin-left: 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2vw;
+    cursor: pointer;
+}
+.username:hover {
+    opacity: 0.7;
+}
+
+.boxComments{
+    margin: 5%;
+    width: 90vw;
+    padding-bottom: 2vw;
+    border: solid black 1px;
+    display: block;
+}
+.newCommentForm{
+    width:90vw;
+    display: flex;
+    margin-top:2vw;
+    padding-bottom: 0.5vw;
+    border-bottom: solid gray 1px;
+
+}
+.uploadTextInput{
+    display: flex;
+}
+textarea{
+    font-size: large;
+    width:70vw;
+    height:3vw;
+    margin-left: 5%;
+    resize: none;
+}
+.commentSubmit{
+    background-color: #5c6c8c;
+    color: white;
+    float: left;
+    border: solid 1px black;
+    border-radius: 0.3vw;
+    outline: none;
+    cursor: pointer;
+    padding: 5 vw;
+    font-size: 1.0vw;
+    font-weight: normal;
+    width: fit-content;
+    height: 100%;
+    margin-left: 0.2vw;
+  
+}
+.commentSubmit:hover {
+    opacity: 0.7;
+}
+
+.commentContainer {
+    width: 90%;
+    display: flex;
+    border: solid 2px gray;
+    border-radius: 1.0vw;
+    margin-left:5%;
+    margin-right:5%;
+    margin-top: 1%;
+}
+.comment{
+    width: 50%;
+    height:3vw;
+    max-width: 50%;
+    margin: auto;
+    margin-right:5%;
+    display: flex;
+    justify-content: start;
+    border:#000066 solid 2px;
+    padding: 0.5%;
+    border-radius: 1.0vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
 }
