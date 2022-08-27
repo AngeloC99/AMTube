@@ -1,1 +1,55 @@
-<p style="margin: 10%;">user-profile works!</p>
+<div class="topBox" *ngIf="userReady">
+    <div class="userDetailsContainer" style=" margin-top:0px">
+        <div class="userLogo">
+            {{viewedUser.username.charAt(0).toUpperCase()}}
+        </div>
+        <div class="username">{{viewedUser.username}} </div>
+    </div>
+    <button class="buttonSubscribe" (click)="subscribe()">Subscribe</button>
+</div>
+<div *ngIf="videosReady">
+    <div *ngFor="let video of videos; let i = index" style="margin-bottom: 5vw;">
+        <div *ngIf="i % 4 == 0" class="row">
+            <div class="videoElement" *ngIf="i < videos.length" (click)="goToVideo(i)">
+                <div class="imgContainer">
+                    <img src="{{videos[i].thumbnailUrl}}" style="height:5vw; width:100%; margin:auto;">
+                    <div class="play"><img src="assets\images\logo_amtube-triangle.png"
+                            style="height:100%; width:100%;" /> </div>
+                </div>
+                <div class="textContainer">
+                    <p class="text title"><b></b>{{videos[i].title}}</p>
+                </div>
+            </div>
+            <div class="videoElement" *ngIf="i+1 < videos.length" (click)="goToVideo(i+1)">
+                <div class="imgContainer">
+                    <img src="{{videos[i+1].thumbnailUrl}}" style="height:5vw; width:100%; margin:auto;">
+                    <div class="play"><img src="assets\images\logo_amtube-triangle.png"
+                            style="height:100%; width:100%;" /> </div>
+                </div>
+                <div class="textContainer">
+                    <p class="text title"><b></b>{{videos[i+1].title}}</p>
+                </div>
+            </div>
+            <div class="videoElement" *ngIf="i+2 < videos.length" (click)="goToVideo(i+2)">
+                <div class="imgContainer">
+                    <img src="{{videos[i+2].thumbnailUrl}}" style="height:5vw; width:100%; margin:auto;">
+                    <div class="play"><img src="assets\images\logo_amtube-triangle.png"
+                            style="height:100%; width:100%;" /> </div>
+                </div>
+                <div class="textContainer">
+                    <p class="text title"><b></b>{{videos[i+2].title}}</p>
+                </div>
+            </div>
+            <div class="videoElement" *ngIf="i+3 < videos.length" (click)="goToVideo(i+3)">
+                <div class="imgContainer">
+                    <img src="{{videos[i+3].thumbnailUrl}}" style="height:5vw; width:100%; margin:auto;">
+                    <div class="play"><img src="assets\images\logo_amtube-triangle.png"
+                            style="height:100%; width:100%;" /> </div>
+                </div>
+                <div class="textContainer">
+                    <p class="text title"><b></b>{{videos[i+3].title}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
