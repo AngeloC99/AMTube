@@ -10,10 +10,11 @@
 
 
   <div style="width:100%;" *ngIf="logged" class="navbar">
-    <div class="search-container">
-      <input type="text" placeholder="Search..">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </div>
+    <form [formGroup]="queryFormGroup" class="search-container">
+      <input formControlName="searchQuery" type="text" placeholder="Search.." minlength="1" maxlength="255">
+      <button type="submit"><i class="fa fa-search" (click)="search()" ></i></button>
+      <div *ngIf="searching" class="loader"></div>
+    </form>
     <button class="buttonTab"
       style="background: transparent; padding:none; margin: none; border: none; color: white; height:100%"
       (click)="onNotifications()">

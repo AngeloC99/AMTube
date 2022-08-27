@@ -44,6 +44,16 @@ public class VideoController {
     public ResponseEntity<List<Video>> getAllVideo() {
         List<Video> videos = new ArrayList<Video>();
         videos.addAll(this.videoRepository.findAll());
+        for (Video video: videos){
+            List<Comment> comments = this.commentRepository.findByVideoId(video.getId());
+        List<UserLike> likes = this.userLikeRepository.findByVideoId(video.getId());
+        List<Long> ids = new ArrayList<Long>();
+        for (UserLike like : likes) {
+            ids.add(like.getUserId());
+        }
+        video.setComments(comments);
+        video.setLikes(ids);
+        }
         return ResponseEntity.ok(videos);
     }
 

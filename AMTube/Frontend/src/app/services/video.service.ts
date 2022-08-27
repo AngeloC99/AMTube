@@ -57,4 +57,7 @@ export class VideoService {
   addComment(videoId: string, commentMetadata: VideoComment): Observable<VideoComment>{
     return this.httpClient.post<VideoComment>(URL.VIDEOS+"/"+videoId+"/"+URL.COMMENTS, commentMetadata);
   }
+  search(query: string): Observable<Video[]>{
+    return this.httpClient.get<Video[]>(URL.VIDEOS);
+  }
 }

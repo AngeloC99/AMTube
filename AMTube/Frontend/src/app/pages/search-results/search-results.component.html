@@ -1,1 +1,37 @@
-<p>search-results works!</p>
+<div *ngIf="searchReady">
+    <div class="topBox">
+        <div class="searchDetailsContainer">
+            <div class="searchText">
+                Search Results for:
+            </div>
+            <div class="query">{{query}}</div>
+        </div>
+    </div>
+    <div class="searchResults" *ngFor="let video of videos; let i = index">
+        <div class="detailsContainer" style=" margin-top:0px">
+            <div class="userDetailsContainer">
+                <div class="userLogo">
+                    {{users[i].username.charAt(0).toUpperCase()}}
+                </div>
+                <div class="username">{{users[i].username}}
+                </div>
+            </div>
+            <div class="dateLikeDetailsContainer">
+                <div class="label">Uploaded: </div>
+                <div class="text date" >{{video.date}}</div>
+                <div class="label" >Likes: </div>
+                <div class="text">{{video.likes?.length}}</div>
+            </div>
+        </div>
+        <div class="imgContainer" (click)="goToVideo(i)">
+            <img src="{{videos[i].thumbnailUrl}}" style="height:5vw; width:100%; margin:auto;">
+            <div class="play"><img src="assets\images\logo_amtube-triangle.png" style="height:100%; width:100%;" />
+            </div>
+        </div>
+        <div class="videoDetailsContainer">
+            <div class="videoTitle"> {{video.title}}</div>
+            <div class="videoDescription">{{video.description}}</div>
+        </div>
+
+    </div>
+</div>

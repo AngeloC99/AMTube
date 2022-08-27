@@ -51,7 +51,7 @@ const routes: Routes = [
     path: 'register', component: RegisterComponent,
   },
   {
-    path: 'search-results', component: SearchResultsComponent,
+    path: 'search', component: SearchResultsComponent,
     canActivate: [AuthGuard],
   },
   {
