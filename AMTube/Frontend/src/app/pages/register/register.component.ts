@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
-              private router: Router) { }
+              private router: Router,
+              private matSnackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group({
@@ -25,8 +27,7 @@ export class RegisterComponent implements OnInit {
       ]],
       email: ['', [
         Validators.required,
-        Validators.maxLength(25),
-        Validators.minLength(5)
+        Validators.email
       ]],
       password: ['', [
         Validators.required,
@@ -43,7 +44,7 @@ export class RegisterComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {
             console.error('Registration request error: ' + err.status);
-            alert("ERROR: this user already exists!");
+            this.matSnackBar.open("ERROR: this user already exists!", "OK");
             this.registrationForm.reset();
         });
   }

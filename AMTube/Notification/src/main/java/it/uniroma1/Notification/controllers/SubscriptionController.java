@@ -1,12 +1,9 @@
 package it.uniroma1.Notification.controllers;
 
-import it.uniroma1.Notification.MQConfig;
 import it.uniroma1.Notification.models.Subscription;
 import it.uniroma1.Notification.repositories.SubscriptionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +19,15 @@ import java.util.Optional;
 public class SubscriptionController {
     private final Logger logger = LoggerFactory.getLogger(SubscriptionController.class);
 
-    @Autowired
-    private SubscriptionRepository subscriptionRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
-    @Autowired
-    private RabbitTemplate template;
+    public SubscriptionController(SubscriptionRepository subscriptionRepository) {
+        this.subscriptionRepository = subscriptionRepository;
+    }
 
     @GetMapping
     public ResponseEntity<List<Subscription>> getAllSubscriptions() {
-        List<Subscription> subscriptions = new ArrayList<Subscription>();
+        List<Subscription> subscriptions = new ArrayList<>();
         subscriptions.addAll(this.subscriptionRepository.findAll());
         return ResponseEntity.ok(subscriptions);
     }
@@ -38,7 +35,6 @@ public class SubscriptionController {
     @GetMapping("/{subscriptionId}")
     public ResponseEntity<Subscription> getUserById(@PathVariable Long subscriptionId) {
         Optional<Subscription> subscription = this.subscriptionRepository.findById(subscriptionId);
-
         if (subscription.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -71,11 +67,8 @@ public class SubscriptionController {
         LocalTime time = LocalTime.now();
         subscription.setDate(date);
         subscription.setTime(time);
-        subscription = this.subscriptionRepository.save(subscription);
-        template.convertAndSend(MQConfig.EXCHANGE, MQConfig.ROUTING_KEY_SUBSCRIPTION, subscription);
-        logger.info(subscription.toString());
         logger.info("Subscription Published");
-        return ResponseEntity.status(201).body(subscription);
+        return ResponseEntity.status(201).body(this.subscriptionRepository.save(subscription));
     }
 
     @DeleteMapping("/{subscriptionId}")

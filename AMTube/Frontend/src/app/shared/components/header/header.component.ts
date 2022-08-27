@@ -5,6 +5,8 @@ import { Router } from "@angular/router";
 import { FormControl, FormGroup } from '@angular/forms';
 import { VideoService } from 'src/app/services/video.service';
 import { Video } from 'src/app/model/video.model';
+import {Observable, of, switchMap} from "rxjs";
+
 
 @Component({
   selector: 'app-header',
@@ -12,7 +14,7 @@ import { Video } from 'src/app/model/video.model';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  logged: boolean = false;
+  logged$: Observable<boolean>;
   queryFormGroup: FormGroup;
   searchQuery: FormControl = new FormControl('');
   searching: boolean = false;
@@ -23,14 +25,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-  }
-
-  ngAfterViewChecked() {
-    if (localStorage.getItem(AUTH_TOKEN) !== 'auth-token' && localStorage.getItem(AUTH_TOKEN) !== null) {
-      this.logged = true;
-    }
-    else this.logged = false;
+this.logged$ = this.userService.getJwtToken().pipe(switchMap(jwt => {
+      if (jwt) return of(true);
+      return of(false);
+    }));
   }
 
   onLogout() {
@@ -44,11 +42,15 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('register');
   }
 
-  onHome() {
-    if (this.logged) {
-      this.router.navigateByUrl('home')
-    }
+
+  onHome(){
+    this.logged$.subscribe(isLogged => {
+      if(isLogged) {
+        this.router.navigateByUrl('home')
+      }
+    })
   }
+
   onMyVideos() {
     this.router.navigateByUrl('my-videos');
   }

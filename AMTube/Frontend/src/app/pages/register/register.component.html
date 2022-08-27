@@ -22,7 +22,6 @@
         <input formControlName="password" type="password" minlength="5" maxlength="30" matInput
             placeholder="Enter your password..." value="" style="width:100%">
         <p class="text08" color="danger" *ngIf="registrationForm.errors">Password Required!</p>
-
     </div>
 
     <button class="buttonTab" mat-button expand="block" (click)="onRegister()"

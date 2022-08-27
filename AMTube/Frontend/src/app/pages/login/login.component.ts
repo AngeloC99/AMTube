@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private userService: UserService) { }
+              private userService: UserService,
+              private matSnackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.loginFormModel = this.formBuilder.group({
@@ -40,7 +42,7 @@ export class LoginComponent implements OnInit {
         (err: HttpErrorResponse) => {
           if (err.status === 401) {
             console.error('Login request error: ' + err.status);
-            alert("ERROR: insert valid credentials!")
+            this.matSnackBar.open("ERROR: insert valid credentials!", "OK");
           }
         });
   }
