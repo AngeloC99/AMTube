@@ -23,6 +23,19 @@
   display: block;
 }
 
+img {
+  height: 100%;
+  width: fit-content;
+  margin-left: 0px;
+  margin-right: auto;
+  opacity: 1.0;
+  cursor: pointer;
+}
+
+img:hover {
+  opacity: 0.7;
+}
+
 .navbar {
   overflow: hidden;
   display: flex;
@@ -101,8 +114,8 @@
   margin-left: 0.5vw;
   border: solid 1px #949cb3;
   border-radius: 0.5vw;
-  border: 5px solid #d0dcff; 
-  border-top: 5px solid #304370; 
+  border: 5px solid #d0dcff;
+  border-top: 5px solid #304370;
   border-radius: 50%;
   width: 0.5vw;
   height: 0.5vw;
@@ -110,6 +123,11 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

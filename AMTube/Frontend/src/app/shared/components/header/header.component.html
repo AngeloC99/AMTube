@@ -3,11 +3,11 @@
   class="navbarContainer">
   <div>
   </div>
-  <img src="assets/images/logo_amtube-nobg.png" style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;" (click)="onHome()">
+  <img src="assets/images/logo_amtube-nobg.png" (click)="onHome()">
 
 
 
-  <div style="width:100%;" *ngIf="logged" class="navbar">
+  <div style="width:100%;" *ngIf="logged$" class="navbar">
     <form [formGroup]="queryFormGroup" class="search-container">
       <input formControlName="searchQuery" type="text" placeholder="Search.." minlength="1" maxlength="255">
       <button type="submit"><i class="fa fa-search" (click)="search()" ></i></button>
