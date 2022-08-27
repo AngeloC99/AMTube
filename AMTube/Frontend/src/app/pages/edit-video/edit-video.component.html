@@ -1,0 +1,53 @@
+<div class="mainBox">
+    <div style="display: flex; justify-content:center; align-content:space-around;">
+        <h1 style="color: #304370; vertical-align:middle;">Edit your Video</h1>
+    </div>
+    <div class="boxVideo" *ngIf="ready">
+        <div class="details">
+            <div class="playerContainer">
+                <app-video-player [videoUrl]="this.video.videoUrl" class="videoPlayer"></app-video-player>
+            </div>
+            <div class="rightContainer">
+                <div class="detailsContainer">
+                    <div class="title">{{this.video.title}}</div>
+                    <div class="description">{{this.video.description}}</div>
+                    <div class="subtitleInfo">
+                        <div class="dateLikeContainer">
+                            <div class="date">
+                                <div style="margin-right:1vw;">Upload Date:</div>{{this.video.date}}
+                            </div>
+                            <div class="likeContainer">
+                                <div class="likes">
+                                    <div style="margin-right:1vw;">Likes:</div> {{this.video.likes?.length}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form [formGroup]="saveVideoDetailsForm" class="detailsContainer">
+                    <div class="uploadTextInput">
+                        <label style="margin-left:5%; margin-right: 11.9%"><b>Title:</b></label>
+                        <input formControlName="title" minlength="5" maxlength="40" matInput
+                            placeholder="Enter title..." value="" style="width:70%">
+                    </div>
+                    <div class="uploadTextInput">
+                        <label style="margin-left:5%; margin-right: 5%"><b>Description:</b></label>
+                        <textarea formControlName="description" minlength="0" maxlength="255" matInput
+                            placeholder="Enter Description..." value="" style="width:70%; height:4vw"></textarea>
+                    </div>
+                    <div class="thumbnail">
+                        <label style="margin-left:5%; margin-right: 25%"><b>Upload Thumbnail:</b></label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01" 
+                                aria-describedby="inputGroupFileAddon01" (change)="onFileSelected($event)">
+                        </div>
+                    </div>
+                    <div class="buttonArea">
+                        <button class="buttonTab" mat-button (click)="editVideo()" >Confirm Changes</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

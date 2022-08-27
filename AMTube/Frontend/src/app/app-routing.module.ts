@@ -10,9 +10,9 @@ import {SubscriptionsComponent} from "./pages/subscriptions/subscriptions.compon
 import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {SearchResultsComponent} from "./pages/search-results/search-results.component";
-import {SaveVideoDetailsComponent} from "./pages/save-video-details/save-video-details.component";
 import {AuthGuard} from "./guard/auth.guard";
 import {NotificationsComponent} from "./pages/notifications/notifications.component";
+import { EditVideoComponent } from "./pages/edit-video/edit-video.component";
 
 const routes: Routes = [
   {
@@ -44,7 +44,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'save-video-details/:videoId', component: SaveVideoDetailsComponent,
+    path: 'edit-video/:videoId', component: EditVideoComponent,
     canActivate: [AuthGuard],
   },
   {

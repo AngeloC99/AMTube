@@ -1,0 +1,142 @@
+.mainBox {
+    margin-top: 5%;
+    width: 100%;
+}
+
+.boxVideo {
+    margin-left: 5%;
+    margin-top: 1%;
+    width: 90%;
+}
+
+.details {
+    margin: auto;
+    margin-top: 0px;
+    display: flex;
+    width: 100%;
+}
+
+.videoPlayer {
+    width: 100%;
+    height: 100%;
+}
+
+.playerContainer {
+    margin-left: 2%;
+    width: 50vw;
+    height: 28.13vw;
+}
+
+.detailsContainer {
+    display: block;
+    margin-left: 5%;
+    margin-bottom: 1%;
+    width: 100%;
+    height: fit-content;
+    padding: 1vw;
+    border: solid black 1px;
+}
+.rightContainer{
+    display: block;
+    width: 35%;
+    height:fit-content
+}
+.title {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 6%;
+    word-break: break-word;
+}
+
+.description {
+    width: 100%;
+    height: 5vw;
+    font-size: medium;
+    font-weight: normal;
+    text-align: start;
+    margin-bottom: 3%;
+    overflow-y: hidden;
+    word-break: break-word;
+}
+.thumbnail {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    padding: 0.5vw;
+    border: solid #5c6c8c 1px;
+    border-radius: 0.5vw;
+}
+.uploadTextInput {
+    margin-bottom: 2%;
+    width: 100%;
+    display: flex;
+}
+.subtitleInfo {
+    width: 100%;
+    display: block;
+    align-content: center;
+}
+
+.dateLikeContainer {
+    width: 100%;
+    display: flex;
+    align-content: center;
+}
+
+.likeContainer {
+    display: flex;
+    margin-left: auto;
+}
+
+.date {
+    display: flex;
+    font-size: 1vw;
+    font-weight: bold;
+    margin-top: 0.5vw;
+    text-align: center;
+
+}
+
+.likes {
+    display: flex;
+    font-size: 1vw;
+    font-weight: bold;
+    color: #304370;
+    margin-top: 0.5vw;
+    margin-right: 1vw;
+
+}
+.buttonArea {
+    width: 100%;
+    display: flex;
+    margin-top: 3%;
+    margin-bottom: 2%;
+    justify-content: center;
+    align-content: center
+}
+.buttonTab {
+    background-color: #5c6c8c;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5 vw;
+    font-size: 1.0vw;
+    font-weight: normal;
+}
+
+.buttonTab:hover:enabled {
+    background-color: #949cb3;
+    color: black
+}
+
+input {
+    font-size: large;
+}
+
+textarea {
+    font-size: large;
+    resize: none;
+}

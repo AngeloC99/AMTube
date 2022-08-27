@@ -132,7 +132,7 @@ export class MyVideosComponent implements OnInit {
     this.myVideos = [];
   }
   editVideo(videoId: number) {
-
+    this.router.navigateByUrl("/edit-video/" + videoId);
   }
   deleteVideo(videoId: number) {
     this.videoService.deleteVideo(String(videoId)).subscribe(data => {

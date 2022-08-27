@@ -110,8 +110,7 @@ public class VideoController {
         video.get().setPublisherId(newVideo.getPublisherId());
         videoRepository.saveAndFlush(video.get());
         // CREATE AND SEND VIDEO NOTIFICATION FOR THE SUBSCRIBERS
-        this.videoService.sendVideoNotification(video.get());
-        logger.info("We are in PUT /videos/videoID");
+        //this.videoService.sendVideoNotification(video.get());
 
         return ResponseEntity.status(200).body(video.get());
     }

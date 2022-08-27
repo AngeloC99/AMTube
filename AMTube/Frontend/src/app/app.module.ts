@@ -23,7 +23,6 @@ import {MatButtonModule} from "@angular/material/button";
 import { HeaderComponent } from './shared/components/header/header.component'
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
-import { SaveVideoDetailsComponent } from './pages/save-video-details/save-video-details.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
@@ -38,6 +37,7 @@ import { VideoPlayerComponent } from './shared/components/video-player/video-pla
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {TokenInterceptorService} from "./services/token-interceptor.service";
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { EditVideoComponent } from './pages/edit-video/edit-video.component';
 
 @NgModule({
   declarations: [
@@ -55,9 +55,9 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     UserInitialsAvatarComponent,
     PageNotFoundComponent,
     HeaderComponent,
-    SaveVideoDetailsComponent,
     VideoPlayerComponent,
-    FooterComponent
+    FooterComponent,
+    EditVideoComponent
   ],
   imports: [
     BrowserModule,

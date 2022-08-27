@@ -29,7 +29,7 @@ export class VideoService {
     const formData = new FormData();
     formData.append('thumbnail', fileEntry, fileEntry.name);
     console.log(URL.VIDEOS + "/thumbnails"+ "/" + videoId );
-    return this.httpClient.post<Video>(URL.THUMBNAILS + "/" + videoId, formData);
+    return this.httpClient.put<Video>(URL.THUMBNAILS + "/" + videoId, formData);
   }
 
   getVideo(videoId: String): Observable<Video>{
