@@ -1,4 +1,4 @@
-package it.uniroma1.Notification.models;
+package AMTube.video.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -13,11 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
-@Entity
-@Table(name= "videoNotification")
 public class VideoNotification implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long videoId;
     private String videoTitle;

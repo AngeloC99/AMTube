@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable, switchMap} from "rxjs";
+import {Observable, switchMap, take} from "rxjs";
 import {UserService} from "./user.service";
 
 @Injectable({
@@ -11,6 +11,7 @@ export class TokenInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       return this.userService.getJwtToken().pipe(
+          take(1),
           switchMap(
               token => {
                   if(token) {

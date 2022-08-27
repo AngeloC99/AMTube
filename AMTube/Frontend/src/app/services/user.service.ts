@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, map, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable, take} from "rxjs";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {AUTH_TOKEN, URL, USER_ID} from "../constants";
 import {LoginForm} from "../model/loginForm.model";
 import {Token} from "../model/token.model";
 import {RegistrationForm} from "../model/registrationForm.model";
 import {User} from "../model/user.model";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +25,12 @@ export class UserService {
     return this.jwtToken$.asObservable();
   }
 
-  login(account: LoginForm): Observable<Token | null> {
-    return this.http.post<Token>(URL.LOGIN, account, {observe: 'response'}).pipe(
-        map((resp: HttpResponse<Token>) => {
-          // @ts-ignore
-          const token = resp.body.token;
+  login(account: LoginForm) {
+    return this.http.post<Token>(URL.LOGIN, account).pipe(
+        tap((resp: Token) => {
+          const token = resp.token;
           localStorage.setItem(AUTH_TOKEN, token);
           this.jwtToken$.next(token);
-          return resp.body;
         }));
   }
 

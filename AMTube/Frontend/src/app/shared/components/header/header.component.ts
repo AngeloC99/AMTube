@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {AUTH_TOKEN} from "../../../constants";
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
+import {Observable, of, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -9,19 +9,15 @@ import {Router} from "@angular/router";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  logged: boolean = false;
+  logged$: Observable<boolean>;
 
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-
-  }
-
-  ngAfterViewChecked() {
-    if(localStorage.getItem(AUTH_TOKEN) !== 'auth-token' && localStorage.getItem(AUTH_TOKEN) !== null){
-      this.logged = true;
-    }
-    else this.logged = false;
+    this.logged$ = this.userService.getJwtToken().pipe(switchMap(jwt => {
+      if (jwt) return of(true);
+      return of(false);
+    }));
   }
 
   onLogout() {
@@ -36,10 +32,13 @@ export class HeaderComponent implements OnInit {
   }
 
   onHome(){
-    if(this.logged){
-      this.router.navigateByUrl('home')
-    }
+    this.logged$.subscribe(isLogged => {
+      if(isLogged) {
+        this.router.navigateByUrl('home')
+      }
+    })
   }
+
   onMyVideos() {
     this.router.navigateByUrl('my-videos');
   }

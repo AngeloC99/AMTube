@@ -8,7 +8,7 @@ import AMTube.video.repositories.UserLikeRepository;
 import AMTube.video.repositories.VideoRepository;
 
 import AMTube.video.services.VideoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +28,20 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/videos")
 public class VideoController {
-    @Autowired
     private VideoRepository videoRepository;
-    @Autowired
     private CommentRepository commentRepository;
-    @Autowired
     private UserLikeRepository userLikeRepository;
     private final VideoService videoService;
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
 
-    public VideoController(VideoService videoService) {
+    public VideoController(VideoRepository videoRepository,
+                           CommentRepository commentRepository,
+                           VideoService videoService,
+                           UserLikeRepository userLikeRepository) {
+        this.videoRepository = videoRepository;
+        this.commentRepository = commentRepository;
         this.videoService = videoService;
+        this.userLikeRepository = userLikeRepository;
     }
 
     @GetMapping
@@ -52,16 +56,6 @@ public class VideoController {
             @RequestParam("thumbnail") MultipartFile thumbnailFile) throws IOException {
         logger.info("new Video");
         return ResponseEntity.status(201).body(videoService.uploadVideo(videoFile, thumbnailFile));
-    }
-
-    @PutMapping("/video/{videoId}")
-    public ResponseEntity<Video> editVideoFile(@RequestParam("videoFile") MultipartFile file,
-            @PathVariable Long videoId) {
-        Optional<Video> video = this.videoRepository.findById(videoId);
-        if (video.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.status(201).body(videoService.editVideo(file, video.get()));
     }
 
     @PutMapping("/thumbnails/{videoId}")
@@ -93,7 +87,7 @@ public class VideoController {
     }
 
     @PutMapping("/{videoId}")
-    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) {
+    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) throws URISyntaxException {
         Optional<Video> video = this.videoRepository.findById(videoId);
 
         if (video.isEmpty()) {
@@ -105,6 +99,9 @@ public class VideoController {
         video.get().setDate(LocalDate.now());
         video.get().setPublisherId(newVideo.getPublisherId());
         videoRepository.saveAndFlush(video.get());
+        // CREATE AND SEND VIDEO NOTIFICATION FOR THE SUBSCRIBERS
+        this.videoService.sendVideoNotification(video.get());
+        logger.info("We are in PUT /videos/videoID");
 
         return ResponseEntity.status(200).body(video.get());
     }

@@ -2,14 +2,10 @@
 <div
   style="height: 5%; width:100%; position: fixed; top:0; left:0; background: linear-gradient(to right, rgb(48,67,112), rgb(69,86,126)); display: flex;">
   <div>
-
   </div>
-  <input type="image" src="assets/images/logo_amtube-nobg.png"
-    style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;" (click)="onHome()"
-    [disabled]="!logged">
+  <img src="assets/images/logo_amtube-nobg.png" style="height: 100%; width: fit-content; margin-left:0px; margin-right: auto;" (click)="onHome()">
 
-
-  <div style="width:100%;" *ngIf="logged" class="navbar">
+  <div style="width:100%;" *ngIf="logged$|async; else notLoggedIn" class="navbar">
     <div class="search-container">
       <input type="text" placeholder="Search..">
       <button type="submit"><i class="fa fa-search"></i></button>
@@ -24,9 +20,11 @@
     <button class="buttonTab" mat-button (click)="onProfile()">Profile</button>
     <button class="buttonTab" mat-button (click)="onLogout()">Logout</button>
   </div>
-  <div style="margin-left:75%;width:100%;" *ngIf="!logged">
+  <ng-template #notLoggedIn style="margin-left:75%;width:100%;" >
 
-    <button class="buttonTab" mat-button (click)="onLogin()" style="margin-right:10%">Login</button>
-    <button class="buttonTab" mat-button (click)="onRegister()">Sign Up</button>
-  </div>
+    <div style="display:flex; padding-right: 1em"><button class="buttonTab" mat-button (click)="onLogin()" >Login</button>
+      <button class="buttonTab" mat-button (click)="onRegister()">Sign Up</button>
+    </div>
+
+  </ng-template>
 </div>
