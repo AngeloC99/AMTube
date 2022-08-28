@@ -6,6 +6,6 @@ export interface Subscription {
   subscriber: string;
   subscribedToId: number;
   subscribedTo: string;
-  date: Date;
-  time: Time;
+  date?: Date;
+  time?: Time;
 }

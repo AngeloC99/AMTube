@@ -22,11 +22,15 @@ export class SubscriptionService {
     return this.httpClient.get<Subscription[]>(URL.SUBSCRIPTIONS + "/subscriber/" + userId);
   }
 
-  addSubscription(subscription: Subscription): Observable<Subscription> {
-    return this.httpClient.post<Subscription>(URL.SUBSCRIPTIONS, subscription);
+  addSubscription(subscriptionMetaData: Subscription): Observable<Subscription> {
+    return this.httpClient.post<Subscription>(URL.SUBSCRIPTIONS, subscriptionMetaData);
   }
 
   deleteSubscription(subscriptionId: string) {
     return this.httpClient.delete(URL.SUBSCRIPTIONS + '/' + subscriptionId)
+  }
+  checkSubscription(subscriberId: string, subscribedToId: string): Observable<Subscription>{
+    return this.httpClient.get<Subscription>(URL.SUBSCRIPTIONS + "/"+subscriberId+"/" + subscribedToId);
+
   }
 }

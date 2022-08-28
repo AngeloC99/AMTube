@@ -19,7 +19,7 @@ export class UserProfileComponent implements OnInit {
   videos: Video[] = [];
   videosReady: boolean = false;
   subscription: Subscription;
-
+  subscribed: boolean;
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService,
     private videoService: VideoService, private router: Router, private subscriptionService: SubscriptionService) {
   }
@@ -33,11 +33,43 @@ export class UserProfileComponent implements OnInit {
         this.videos=data;
         console.log(this.videos);
         this.videosReady = true;
+      });
+      this.subscriptionService.checkSubscription(String(localStorage.getItem(USER_ID)),String(data.id)).subscribe(data=>{
+          console.log(data);
+        if(data){
+          this.subscribed=true;
+          this.subscription=data;
+        }
+        else{
+          this.subscribed=false;
+        }
       })
     });
   }
 
   subscribe() {
+    this.userService.getUserInfo().subscribe(data=>{
+       const subscriptionMetaData: Subscription = {
+      "subscribedToId": Number(this.viewedUser.id),
+      "subscribedTo": String(this.viewedUser.username),
+      "subscriberId": Number(localStorage.getItem(USER_ID)),
+      "subscriber":String(data.username)
+    }
+    if(!this.subscribed){
+      this.subscriptionService.addSubscription(subscriptionMetaData).subscribe(data=>{
+        this.subscription=data;
+        this.subscribed=true;
+      });
+    }
+    });
+   
+  }
+  unsubscribe(){
+    if(this.subscribed){
+      this.subscriptionService.deleteSubscription(String(this.subscription.id)).subscribe(data=>{
+        this.subscribed=false;
+      });
+    };
   }
 
   goToVideo(videoArrayIndex: number) {

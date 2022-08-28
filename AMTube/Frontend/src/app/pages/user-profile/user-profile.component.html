@@ -5,7 +5,9 @@
         </div>
         <div class="username">{{viewedUser.username}} </div>
     </div>
-    <button class="buttonSubscribe" (click)="subscribe()">Subscribe</button>
+    <button class="buttonSubscribe" *ngIf="!subscribed" (click)="subscribe()">Subscribe</button>
+    <button class="buttonSubscribe" *ngIf="subscribed"(click)="unsubscribe()">Unsubscribe</button>
+
 </div>
 <div *ngIf="videosReady">
     <div *ngFor="let video of videos; let i = index" style="margin-bottom: 5vw;">

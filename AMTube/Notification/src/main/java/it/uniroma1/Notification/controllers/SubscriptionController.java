@@ -80,5 +80,15 @@ public class SubscriptionController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/{subscriberId}/{subscribedToId}")
+    public ResponseEntity<Subscription> isSubscribedTo(@PathVariable Long subscriberId, @PathVariable Long subscribedToId){
+        List<Subscription> subs= this.subscriptionRepository.findBySubscriberId(subscriberId);
+        for (Subscription sub: subs){
+            if(sub.getSubscribedToId()==subscribedToId){
+                return ResponseEntity.status(200).body(sub);
+            }
+        }
+        return ResponseEntity.status(200).body(null);
+    }
 
 }
