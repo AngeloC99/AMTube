@@ -1,1 +1,41 @@
-<p>subscriptions works!</p>
+<div>
+    <div class="subscriptionBox" style="overflow-y: scroll;">
+        <div style="display: flex; justify-content:center; align-content:space-around;">
+            <h1 style="color: #304370; vertical-align:middle; ">My Subscribers</h1>
+        </div>
+
+        <div *ngIf="mySubscribedTo.length == 0"><h2>There are no users subscribed to you!</h2></div>
+
+        <div *ngIf="mySubscribedTo.length != 0">
+            <div *ngFor="let subscription of mySubscribedTo">
+                <div class="myVideo">
+                    <div style="display: block; width:70%">
+                        <p class="videoText "><b>Subscriber: </b>{{subscription.subscriber}} {{subscription.subscriberId}}</p>
+                        <p class="videoText "><b>Since: </b>{{subscription.date}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subscriptionBox" style="overflow-y: scroll;">
+        <div style="display: flex; justify-content:center; align-content:space-around;">
+            <h1 style="color: #304370; vertical-align:middle; ">My Subscriptions</h1>
+        </div>
+
+        <div *ngIf="mySubscribers.length == 0"><h2>You are not subscribed to a user!</h2></div>
+
+        <div *ngIf="mySubscribers.length != 0">
+            <div *ngFor="let subscription of mySubscribers">
+                <div class="myVideo">
+                    <div style="display: block; width:70%">
+                        <p class="videoText "><b>Subscribed To: </b>{{subscription.subscribedTo}} {{subscription.subscribedToId}}</p>
+                        <p class="videoText "><b>Since: </b>{{subscription.date}}</p>
+                    </div>
+                </div>
+                <button (click)="deleteSubscription(subscription.id)" >Unsubscribe</button>
+            </div>
+        </div>
+    </div>
+
+</div>

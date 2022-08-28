@@ -39,10 +39,10 @@ export class VideoService {
   saveVideo(videoMetaData: Video, videoId: string): Observable<Video> {
     return this.httpClient.put<Video>(URL.VIDEOS + "/" + videoId, videoMetaData);
   }
-  getVideosByUserId(userId: String): Observable<Video[]>{
+  getVideosByUserId(userId: string): Observable<Video[]>{
     return this.httpClient.get<Video[]>(URL.VIDEOS_BY_USER_ID + "/" + userId);
   }
-  deleteVideo(videoId: string): Observable<Video>{
+  deleteVideo(videoId: string): Observable<any>{
     return this.httpClient.delete<Video>(URL.VIDEOS + "/" + videoId);
   }
   getAllVideos(): Observable<Video[]>{
