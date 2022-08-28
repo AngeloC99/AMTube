@@ -2,6 +2,20 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.1.
 
+## Running the Docker container
+From the terminal, go to the directory of the service (superuser privileges may be necessary).
+### To build the image
+
+```bash
+docker build -t frontend-docker .
+```
+
+### To run the container
+
+```bash
+docker run -d -p 4200:4200 frontend-docker
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.

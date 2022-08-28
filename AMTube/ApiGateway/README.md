@@ -3,11 +3,11 @@ From the terminal, go to the directory of the service (superuser privileges may 
 ## To build the image
 
 ```bash
-docker build -t user-management-docker .
+docker build -t api-gateway-docker .
 ```
 
 ## To run the container
 
 ```bash
-docker run -d -p 8080:8080 user-management-docker
+docker run -d -p 9000:9000 api-gateway-docker
 ```

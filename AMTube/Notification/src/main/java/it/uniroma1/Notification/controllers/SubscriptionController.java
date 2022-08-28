@@ -33,7 +33,7 @@ public class SubscriptionController {
     }
 
     @GetMapping("/{subscriptionId}")
-    public ResponseEntity<Subscription> getUserById(@PathVariable Long subscriptionId) {
+    public ResponseEntity<Subscription> getSubscriptionById(@PathVariable Long subscriptionId) {
         Optional<Subscription> subscription = this.subscriptionRepository.findById(subscriptionId);
         if (subscription.isEmpty()) {
             return ResponseEntity.notFound().build();
