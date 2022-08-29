@@ -1,16 +1,15 @@
 <div style="height: 1px; width:100%; position: relative;"></div>
-<div
-  class="navbarContainer">
+<div class="navbarContainer">
   <div>
   </div>
   <img src="assets/images/logo_amtube-nobg.png" (click)="onHome()">
 
 
 
-  <div style="width:100%;" *ngIf="logged$" class="navbar">
+  <div style="width:100%;" class="navbar" *ngIf="isLogged">
     <form [formGroup]="queryFormGroup" class="search-container">
       <input formControlName="searchQuery" type="text" placeholder="Search.." minlength="1" maxlength="255">
-      <button type="submit"><i class="fa fa-search" (click)="search()" ></i></button>
+      <button type="submit"><i class="fa fa-search" (click)="search()"></i></button>
       <div *ngIf="searching" class="loader"></div>
     </form>
     <button class="buttonTab"
@@ -23,11 +22,13 @@
     <button class="buttonTab" mat-button (click)="onProfile()">Profile</button>
     <button class="buttonTab" mat-button (click)="onLogout()">Logout</button>
   </div>
-  <ng-template #notLoggedIn style="margin-left:75%;width:100%;" >
+  <div *ngIf="!isLogged" style="margin-left:75%;width:100%;">
 
-    <div style="display:flex; padding-right: 1em"><button class="buttonTab" mat-button (click)="onLogin()" >Login</button>
+    <div *ngIf="!isLogged" style="display:flex; padding-right: 1em"><button class="buttonTab" mat-button
+        (click)="onLogin()">Login</button>
       <button class="buttonTab" mat-button (click)="onRegister()">Sign Up</button>
     </div>
 
-  </ng-template>
+  </div>
+
 </div>

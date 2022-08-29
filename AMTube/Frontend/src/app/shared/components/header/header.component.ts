@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { FormControl, FormGroup } from '@angular/forms';
 import { VideoService } from 'src/app/services/video.service';
 import { Video } from 'src/app/model/video.model';
-import {Observable, of, switchMap} from "rxjs";
+import { Observable, of, switchMap } from "rxjs";
 
 
 @Component({
@@ -15,6 +15,7 @@ import {Observable, of, switchMap} from "rxjs";
 })
 export class HeaderComponent implements OnInit {
   logged$: Observable<boolean>;
+  isLogged: boolean;
   queryFormGroup: FormGroup;
   searchQuery: FormControl = new FormControl('');
   searching: boolean = false;
@@ -25,13 +26,18 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-this.logged$ = this.userService.getJwtToken().pipe(switchMap(jwt => {
-      if (jwt) return of(true);
+    this.logged$ = this.userService.getJwtToken().pipe(switchMap(jwt => {
+      if (jwt) {
+        this.isLogged = true;
+        return of(true);
+      }
+      this.isLogged = false;
       return of(false);
     }));
   }
 
   onLogout() {
+    this.isLogged = false;
     this.userService.logout();
     this.router.navigateByUrl('login');
   }
@@ -43,9 +49,10 @@ this.logged$ = this.userService.getJwtToken().pipe(switchMap(jwt => {
   }
 
 
-  onHome(){
+  onHome() {
+    console.log(this.isLogged)
     this.logged$.subscribe(isLogged => {
-      if(isLogged) {
+      if (isLogged) {
         this.router.navigateByUrl('home')
       }
     })

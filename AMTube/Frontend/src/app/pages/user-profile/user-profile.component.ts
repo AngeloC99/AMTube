@@ -48,6 +48,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   subscribe() {
+    
     this.userService.getUserInfo().subscribe(data=>{
        const subscriptionMetaData: Subscription = {
       "subscribedToId": Number(this.viewedUser.id),

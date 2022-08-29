@@ -10,6 +10,7 @@ export const URL = {
   THUMBNAILS: URL_BASE + 'videos/thumbnails',
   VIDEOS_BY_USER_ID: URL_BASE+'videos/findByUserId',
   USERS: URL_BASE + 'users',
+  SEARCH: URL_BASE + "indexVideos/_search",
   LIKE: 'like',
   COMMENTS: 'comments'
 };

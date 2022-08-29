@@ -101,7 +101,7 @@ export class EditVideoComponent implements OnInit {
       }
       message=message+"Thumbnail ";
       this.videoService.editThumbnail(this.thumbnailSelectedFile, id).subscribe(data => {
-        this.videoService.saveVideo(videoMetadata, id).subscribe(data => {
+        this.videoService.editVideoMetadata(videoMetadata, id).subscribe(data => {
           this.video=data;
           this.matSnackBar.open(message+" edited successfully", "OK");
           this.uploading = false;
@@ -110,7 +110,7 @@ export class EditVideoComponent implements OnInit {
     })
     }
     else{
-      this.videoService.saveVideo(videoMetadata, id).subscribe(data => {
+      this.videoService.editVideoMetadata(videoMetadata, id).subscribe(data => {
         this.video=data;
         this.matSnackBar.open(message+" edited successfully", "OK");
         this.uploading = false;
