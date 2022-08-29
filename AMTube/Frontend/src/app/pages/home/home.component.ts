@@ -12,7 +12,7 @@ import { User } from 'src/app/model/user.model';
 })
 export class HomeComponent implements OnInit {
   videos: Video[] = []
-  publishers: User[] = []
+  publishers = new Map();
   ready = false;
   constructor(private videoService: VideoService, private userService: UserService, private router: Router) { }
 
@@ -22,17 +22,15 @@ export class HomeComponent implements OnInit {
     });
     this.videoService.getAllVideos().subscribe(data => {
       this.videos = data;
-      console.log(this.videos);
-      for (let k = 0; k < this.videos.length; k++) {
-        this.userService.getUserById(this.videos[k].publisherId).subscribe(data => {
-          this.publishers.push(data)
-          if (this.publishers.length == this.videos.length) {
-            console.log(this.publishers);
-            this.ready = true;
+      this.videos.forEach(video =>{       
+        this.userService.getUserById(video.publisherId).subscribe(data => {
+          this.publishers.set((video.id), data);
+          if((this.publishers.size==this.videos.length)){
+            this.ready=true;
+            console.log(this.publishers)
           }
         });
-      }
-
+      })
     });
   }
 

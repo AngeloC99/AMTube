@@ -11,8 +11,8 @@
                             style="height:100%; width:100%;" /> </div>
                 </div>
                 <div class="textContainer">
-                    <p class="text title"><b></b>{{videos[i].title}}</p>
-                    <p class="text profile">{{publishers[i].username}}</p>
+                    <p class="text title"><b></b>{{videos[i].title}}A</p>
+                    <p class="text profile">{{publishers.get(videos[i].id).username}}</p>
                 </div>
             </div>
             <div class="videoElement" *ngIf="i+1 < videos.length" (click)="goToVideo(i+1)">
@@ -22,8 +22,8 @@
                             style="height:100%; width:100%;" /> </div>
                 </div>
                 <div class="textContainer">
-                    <p class="text title"><b></b>{{videos[i+1].title}}</p>
-                    <p class="text profile">{{publishers[i+1].username}}</p>
+                    <p class="text title"><b></b>{{videos[i+1].title}}A</p>
+                    <p class="text profile">{{publishers.get(videos[i+1].id).username}}</p>
                 </div>
             </div>
             <div class="videoElement" *ngIf="i+2 < videos.length" (click)="goToVideo(i+2)">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="textContainer">
                     <p class="text title"><b></b>{{videos[i+2].title}}</p>
-                    <p class="text profile">{{publishers[i+2].username}}</p>
+                    <p class="text profile">{{publishers.get(videos[i+2].id).username}}</p>
                 </div>
             </div>
             <div class="videoElement" *ngIf="i+3 < videos.length" (click)="goToVideo(i+3)">
@@ -45,7 +45,7 @@
                 </div>
                 <div class="textContainer">
                     <p class="text title"><b></b>{{videos[i+3].title}}</p>
-                    <p class="text profile">{{publishers[i+3].username}}</p>
+                    <p class="text profile">{{publishers.get(videos[i+3].id).username}}</p>
                 </div>
             </div>
         </div>

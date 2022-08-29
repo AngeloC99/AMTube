@@ -85,7 +85,9 @@
     border-radius: 100%;
     width: 2vw;
     height: 2vw;
-    margin-right: 10%
+    margin-right: 10%;
+    cursor: pointer;
+
 }
 
 .username {

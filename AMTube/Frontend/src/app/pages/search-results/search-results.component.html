@@ -10,10 +10,10 @@
     <div class="searchResults" *ngFor="let video of videos; let i = index">
         <div class="detailsContainer" style=" margin-top:0px">
             <div class="userDetailsContainer">
-                <div class="userLogo">
-                    {{users[i].username.charAt(0).toUpperCase()}}
+                <div class="userLogo" (click)="goToUser(publishers.get(video.id).id)">
+                    {{publishers.get(video.id).username.charAt(0).toUpperCase()}}
                 </div>
-                <div class="username">{{users[i].username}}
+                <div class="username" (click)="goToUser(publishers.get(video.id).id)">{{publishers.get(video.id).username}}
                 </div>
             </div>
             <div class="dateLikeDetailsContainer">
