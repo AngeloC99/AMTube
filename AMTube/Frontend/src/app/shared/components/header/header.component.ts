@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AUTH_TOKEN } from "../../../constants";
 import { UserService } from "../../../services/user.service";
 import { Router } from "@angular/router";
 import { FormControl, FormGroup } from '@angular/forms';
@@ -15,7 +14,6 @@ import { Observable, of, switchMap } from "rxjs";
 })
 export class HeaderComponent implements OnInit {
   logged$: Observable<boolean>;
-  isLogged: boolean;
   queryFormGroup: FormGroup;
   searchQuery: FormControl = new FormControl('');
   searching: boolean = false;
@@ -27,17 +25,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.logged$ = this.userService.getJwtToken().pipe(switchMap(jwt => {
-      if (jwt) {
-        this.isLogged = true;
-        return of(true);
-      }
-      this.isLogged = false;
+      if (jwt) return of(true);
       return of(false);
     }));
   }
 
   onLogout() {
-    this.isLogged = false;
     this.userService.logout();
     this.router.navigateByUrl('login');
   }
@@ -50,7 +43,6 @@ export class HeaderComponent implements OnInit {
 
 
   onHome() {
-    console.log(this.isLogged)
     this.logged$.subscribe(isLogged => {
       if (isLogged) {
         this.router.navigateByUrl('home')
