@@ -65,4 +65,9 @@ public class VideoService {
 
         template.convertAndSend(MQConfig.EXCHANGE, MQConfig.ROUTING_KEY_NOTIFICATION, videoNotification);
     }
+
+    public void sendVideoToElastic(Video video) {
+        logger.info("Sending to ElasticSearch video: " + video.toString());
+
+    }
 }

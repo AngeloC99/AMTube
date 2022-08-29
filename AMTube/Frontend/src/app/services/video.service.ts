@@ -39,6 +39,9 @@ export class VideoService {
   saveVideo(videoMetaData: Video, videoId: string): Observable<Video> {
     return this.httpClient.put<Video>(URL.VIDEOS + "/" + videoId, videoMetaData);
   }
+  postVideo(videoMetaData: Video, videoId: string): Observable<Video> {
+    return this.httpClient.post<Video>(URL.VIDEOS + "/" + videoId, videoMetaData);
+  }
   getVideosByUserId(userId: string): Observable<Video[]>{
     return this.httpClient.get<Video[]>(URL.VIDEOS_BY_USER_ID + "/" + userId);
   }

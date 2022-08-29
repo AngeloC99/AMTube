@@ -96,23 +96,45 @@ public class VideoController {
         return ResponseEntity.ok(vid);
     }
 
-    @PutMapping("/{videoId}")
-    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) throws URISyntaxException {
+    // TO load the video metadata for the first time, triggering notification and ElasticSearch update
+    @PostMapping("/{videoId}")
+    public ResponseEntity<Video> uploadVideoMetadata(@PathVariable Long videoId, @RequestBody Video newVideoMetadata) throws URISyntaxException {
         Optional<Video> video = this.videoRepository.findById(videoId);
 
         if (video.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        logger.info("{}", newVideo);
-        video.get().setTitle(newVideo.getTitle());
-        video.get().setDescription(newVideo.getDescription());
+        video.get().setTitle(newVideoMetadata.getTitle());
+        video.get().setDescription(newVideoMetadata.getDescription());
         video.get().setDate(LocalDate.now());
-        video.get().setPublisherId(newVideo.getPublisherId());
+        video.get().setPublisherId(newVideoMetadata.getPublisherId());
         videoRepository.saveAndFlush(video.get());
-        // CREATE AND SEND VIDEO NOTIFICATION FOR THE SUBSCRIBERS
-        //this.videoService.sendVideoNotification(video.get());
 
-        return ResponseEntity.status(200).body(video.get());
+        // CREATE AND SEND VIDEO NOTIFICATION FOR THE SUBSCRIBERS
+        this.videoService.sendVideoNotification(video.get());
+        // SEND VIDEO INFO TO ELASTICSEARCH
+        this.videoService.sendVideoToElastic(video.get());
+
+        return ResponseEntity.status(201).body(video.get());
+    }
+
+    // To update the video metadata, triggering ElasticSearch update (not notifications)
+    @PutMapping("/{videoId}")
+    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) {
+        Optional<Video> originalVideo = this.videoRepository.findById(videoId);
+
+        if (originalVideo.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        logger.info("{}", newVideo);
+        originalVideo.get().setTitle(newVideo.getTitle());
+        originalVideo.get().setDescription(newVideo.getDescription());
+        videoRepository.saveAndFlush(originalVideo.get());
+
+        // Sending the information for the update of the video to ElasticSearch
+        this.videoService.sendVideoToElastic(originalVideo.get());
+
+        return ResponseEntity.status(200).body(originalVideo.get());
     }
 
     @DeleteMapping("/{videoId}")

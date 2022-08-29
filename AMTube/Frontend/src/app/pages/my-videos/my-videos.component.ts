@@ -118,7 +118,7 @@ export class MyVideosComponent implements OnInit {
       "description": this.saveVideoDetailsForm.get('description')?.value,
       "publisherId": Number(localStorage.getItem(USER_ID)),
     }
-    this.videoService.saveVideo(videoMetadata, id).subscribe(data => {
+    this.videoService.postVideo(videoMetadata, id).subscribe(data => {
       this.matSnackBar.open("Video uploaded successfully", "OK");
       this.uploading = false;
       this.myVideos.unshift(data);
