@@ -8,7 +8,6 @@ import AMTube.video.repositories.UserLikeRepository;
 import AMTube.video.repositories.VideoRepository;
 
 import AMTube.video.services.VideoService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,9 +26,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/videos")
 public class VideoController {
-    private VideoRepository videoRepository;
-    private CommentRepository commentRepository;
-    private UserLikeRepository userLikeRepository;
+    private final VideoRepository videoRepository;
+    private final CommentRepository commentRepository;
+    private final UserLikeRepository userLikeRepository;
     private final VideoService videoService;
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
 
@@ -46,12 +44,12 @@ public class VideoController {
 
     @GetMapping
     public ResponseEntity<List<Video>> getAllVideo() {
-        List<Video> videos = new ArrayList<Video>();
+        List<Video> videos = new ArrayList<>();
         videos.addAll(this.videoRepository.findAll());
         for (Video video: videos){
             List<Comment> comments = this.commentRepository.findByVideoId(video.getId());
         List<UserLike> likes = this.userLikeRepository.findByVideoId(video.getId());
-        List<Long> ids = new ArrayList<Long>();
+        List<Long> ids = new ArrayList<>();
         for (UserLike like : likes) {
             ids.add(like.getUserId());
         }
@@ -63,7 +61,7 @@ public class VideoController {
 
     @PostMapping
     public ResponseEntity<Video> uploadVideo(@RequestParam("videoFile") MultipartFile videoFile,
-            @RequestParam("thumbnail") MultipartFile thumbnailFile) throws IOException {
+            @RequestParam("thumbnail") MultipartFile thumbnailFile) {
         logger.info("new Video");
         return ResponseEntity.status(201).body(videoService.uploadVideo(videoFile, thumbnailFile));
     }
@@ -120,7 +118,7 @@ public class VideoController {
 
     // To update the video metadata, triggering ElasticSearch update (not notifications)
     @PutMapping("/{videoId}")
-    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) {
+    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId, @RequestBody Video newVideo) throws URISyntaxException {
         Optional<Video> originalVideo = this.videoRepository.findById(videoId);
 
         if (originalVideo.isEmpty()) {
@@ -143,6 +141,7 @@ public class VideoController {
             this.videoRepository.deleteById(videoId);
             this.commentRepository.deleteByVideoId(videoId);
             this.userLikeRepository.deleteByVideoId(videoId);
+            this.videoService.deleteVideoOnElastic(videoId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -153,7 +152,7 @@ public class VideoController {
     public ResponseEntity<List<Video>> getAllVideosByUserId(@PathVariable Long userId) {
         List<Video> videos = this.videoRepository.findByPublisherId(userId);
         for (int i = 0; i < videos.size(); i++) {
-            List<Long> ids = new ArrayList<Long>();
+            List<Long> ids = new ArrayList<>();
             for (UserLike like : this.userLikeRepository.findByVideoId(videos.get(i).getId())) {
                 ids.add(like.getUserId());
             }
@@ -183,7 +182,7 @@ public class VideoController {
         List<UserLike> likes = this.userLikeRepository.findByVideoId(videoId);
         for (UserLike like : likes) {
             if (like.getUserId() == userId) {
-                return ResponseEntity.status(200).body(like); // Cambiare 200 con il codice per un entità già presente
+                return ResponseEntity.status(200).body(like);
             }
         }
         UserLike newLike = new UserLike();

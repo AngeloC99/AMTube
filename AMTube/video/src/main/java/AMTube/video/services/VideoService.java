@@ -4,6 +4,7 @@ import AMTube.video.config.MQConfig;
 import AMTube.video.controllers.VideoController;
 import AMTube.video.models.Video;
 import AMTube.video.models.VideoNotification;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -23,10 +24,11 @@ import java.net.URISyntaxException;
 @Service
 public class VideoService {
 
-    private RabbitTemplate template;
+    private final RabbitTemplate template;
     private final S3Service s3Service;
     private final VideoRepository videoRepository;
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
+
 
     public VideoService(S3Service s3Service, VideoRepository videoRepository, RabbitTemplate template) {
         this.s3Service = s3Service;
@@ -56,7 +58,7 @@ public class VideoService {
         return videoRepository.save(video);
     }
 
-    public void sendVideoNotification(Video video) throws URISyntaxException {
+    public void sendVideoNotification(Video video) {
         VideoNotification videoNotification = new VideoNotification();
         videoNotification.setVideoId(video.getId());
         videoNotification.setVideoTitle(video.getTitle());
@@ -66,8 +68,51 @@ public class VideoService {
         template.convertAndSend(MQConfig.EXCHANGE, MQConfig.ROUTING_KEY_NOTIFICATION, videoNotification);
     }
 
-    public void sendVideoToElastic(Video video) {
+    // For creating and updating the document representing the video in the proper ElasticSearch index
+    public void sendVideoToElastic(Video video) throws URISyntaxException {
         logger.info("Sending to ElasticSearch video: " + video.toString());
+        String id = String.valueOf(video.getId());
 
+        // ElasticSearch container on localhost:9200
+        URI uri = new URI("http", null, "localhost", 9200, "/videos/_doc/"+id, null, null);
+        logger.info("Sending video information to ElasticSearch to " + uri + "...");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccessControlAllowOrigin("*");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        logger.info("Verification request's headers: " + headers);
+
+        JSONObject body  = new JSONObject();
+        body.put("videoId", id);
+        body.put("title", video.getTitle());
+        body.put("description", video.getDescription());
+
+        HttpEntity<JSONObject> httpEntity = new HttpEntity<>(body, headers);
+        ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate(factory);
+        try {
+            restTemplate.exchange(uri, HttpMethod.PUT, httpEntity, String.class);
+        } catch (HttpStatusCodeException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    public void deleteVideoOnElastic(Long videoId) throws URISyntaxException {
+        logger.info("Deleting the video" + String.valueOf(videoId) + "document on ElasticSearch");
+        URI uri = new URI("http", null, "localhost", 9200, "/videos/_doc/"+videoId, null, null);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccessControlAllowOrigin("*");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        logger.info("Verification request's headers: " + headers);
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(null, headers);
+        ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate(factory);
+        try {
+            restTemplate.exchange(uri, HttpMethod.DELETE, httpEntity, String.class);
+        } catch (HttpStatusCodeException e) {
+            logger.error(e.getMessage());
+        }
     }
 }

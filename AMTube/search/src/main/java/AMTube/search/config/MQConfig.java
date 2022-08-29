@@ -11,12 +11,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MQConfig {
     public static final String QUEUE_NOTIFICATION = "notification_queue";
+    public static final String QUEUE_SEARCH = "search_queue";
     public static final String EXCHANGE = "exchange";
     public static final String ROUTING_KEY_NOTIFICATION = "notification_routingKey";
+    public static final String ROUTING_KEY_SEARCH = "search_routingKey";
 
     @Bean
     public Queue notificationQueue() {
         return new Queue(QUEUE_NOTIFICATION);
+    }
+    @Bean
+    public Queue elasticQueue() {
+        return new Queue(QUEUE_SEARCH);
     }
 
     @Bean
@@ -31,6 +37,15 @@ public class MQConfig {
                 .to(exchange)
                 .with(ROUTING_KEY_NOTIFICATION);
     }
+
+    @Bean
+    public Binding searchBinding(Queue elasticQueue, TopicExchange exchange) {
+        return BindingBuilder
+                .bind(elasticQueue)
+                .to(exchange)
+                .with(ROUTING_KEY_SEARCH);
+    }
+
 
     @Bean
     public MessageConverter messageConverter() { return new Jackson2JsonMessageConverter(); }
