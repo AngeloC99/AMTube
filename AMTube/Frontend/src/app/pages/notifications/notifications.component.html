@@ -1,1 +1,52 @@
-<p>notifications works!</p>
+<div *ngIf="ready">
+    <div *ngIf="notifications.length>0">
+        <div class="topBox">
+            <div class="searchDetailsContainer">
+                <div class="searchText">
+                    There are new videos from your Subscriptions!
+                </div>
+            </div>
+        </div>
+        <div class="searchResults" *ngFor="let notification of notifications; let i = index">
+            <div class="buttonArea" (click)="delete((notification.id))">
+                <button class="buttonTab">Delete</button>
+            </div>
+            <div class="detailsContainer" style=" margin-top:0px">
+
+                <div class="userDetailsContainer">
+                    <div class="userLogo" (click)="goToUser(notification.publisherId)">
+                        {{notification.publisherUsername.charAt(0).toUpperCase()}}
+                    </div>
+                    <div class="username" (click)="goToUser(notification.publisherId)">
+                        {{notification.publisherUsername}}
+                    </div>
+                </div>
+                <div class="dateLikeDetailsContainer">
+                    <div class="label">Uploaded: </div>
+                    <div class="text date">{{notification.date}}</div>
+                    <div class="label">Likes: </div>
+                    <div class="text">{{videos.get(notification.id).likes?.length}}</div>
+                </div>
+            </div>
+            <div class="imgContainer" (click)="goToVideo(notification.videoId)">
+                <img src="{{videos.get(notification.id).thumbnailUrl}}" style="height:5vw; width:100%; margin:auto;">
+                <div class="play"><img src="assets\images\logo_amtube-triangle.png" style="height:100%; width:100%;" />
+                </div>
+            </div>
+            <div class="videoDetailsContainer">
+                <div class="videoTitle"> {{videos.get(notification.id).title}}</div>
+
+                <div class="videoDescription">{{videos.get(notification.id).description}}</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="topBox" *ngIf="notifications.length==0">
+        <div class="searchDetailsContainer">
+            <div class="searchText">
+                There are no new videos from your Subscriptions!
+            </div>
+        </div>
+    </div>
+
+</div>

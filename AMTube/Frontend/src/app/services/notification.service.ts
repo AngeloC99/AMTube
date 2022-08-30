@@ -12,13 +12,13 @@ export class NotificationService {
   constructor(private httpClient: HttpClient) { }
 
   // To get all the notifications received by a user
-  getNotificationsByUserId(userId: string): Observable<videoNotification>{
-    return this.httpClient.get<videoNotification>(URL.SUBSCRIPTIONS + "/receiver/" + userId);
+  getNotificationsByUserId(userId: string): Observable<videoNotification[]>{
+    return this.httpClient.get<videoNotification[]>(URL.NOTIFICATIONS + "/receiver/" + userId);
   }
 
   // To mark as read the notification, simply pass the notification id, then the backend will do it
   markNotificationAsRead(notificationId: string): Observable<videoNotification>{
-    return this.httpClient.get<videoNotification>(URL.SUBSCRIPTIONS + notificationId);
+    return this.httpClient.delete<videoNotification>(URL.NOTIFICATIONS +"/"+ notificationId);
   }
 
 }
