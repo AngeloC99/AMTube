@@ -21,6 +21,9 @@ export class SearchResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.queryText = String(this.router.url.substring(14));
+    while (this.queryText.includes("%20")){
+      this.queryText=this.queryText.replace("%20", " ",);
+}
     if (this.router.getCurrentNavigation()?.extras?.state?.['videos']) {
       this.videos = this.router.getCurrentNavigation()?.extras?.state?.["videos"];
 

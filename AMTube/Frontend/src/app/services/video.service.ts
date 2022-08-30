@@ -61,7 +61,13 @@ export class VideoService {
     return this.httpClient.post<VideoComment>(URL.VIDEOS+"/"+videoId+"/"+URL.COMMENTS, commentMetadata);
   }
   search(query: string): Observable<Video[]>{
-    return this.httpClient.get<Video[]>(URL.VIDEOS);
-   //return this.httpClient.post<Video[]>(URL.SEARCH, jsoncon query);
+    //return this.httpClient.get<Video[]>(URL.VIDEOS);
+    //let response= this.httpClient.post<String>(URL.VIDEOS+"/search", query);
+    this.httpClient.post<any>(URL.VIDEOS+"/search", query).subscribe(data=>{
+      if(data.hits.hits){
+          console.log(data.hits.hits)
+      }
+    })
+    return this.getAllVideos()
   }
 }
