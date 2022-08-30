@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
       console.log(videos);
       this.searching = false;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => this.router.navigate(['search'], {
-        queryParams: { query: query },
+        queryParams: { "query": query },
         state: { "videos": videos }
       }));
 

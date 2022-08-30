@@ -82,9 +82,13 @@ public class SubscriptionController {
     }
     @GetMapping("/{subscriberId}/{subscribedToId}")
     public ResponseEntity<Subscription> isSubscribedTo(@PathVariable Long subscriberId, @PathVariable Long subscribedToId){
-        List<Subscription> subs= this.subscriptionRepository.findBySubscriberId(subscriberId);
+        List<Subscription> subs= new ArrayList<>();
+        subs.addAll(this.subscriptionRepository.findBySubscribedToId(subscribedToId));
+        if (subs.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         for (Subscription sub: subs){
-            if(sub.getSubscribedToId()==subscribedToId){
+            if(sub.getSubscriberId()==subscriberId){
                 return ResponseEntity.status(200).body(sub);
             }
         }

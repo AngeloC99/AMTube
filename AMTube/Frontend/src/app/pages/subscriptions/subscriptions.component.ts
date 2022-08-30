@@ -54,6 +54,12 @@ export class SubscriptionsComponent implements OnInit {
   deleteSubscription(subscriptionId: number | undefined) {
     this.subscriptionService.deleteSubscription(String(subscriptionId)).subscribe(() => {
       this.matSnackBar.open("Subscription successfully deleted!", "OK");
+      this.mySubscribers.forEach(sub=>{
+        if(sub.id==subscriptionId){
+          this.mySubscribers.splice(this.mySubscribers.indexOf(sub));
+          return
+        }
+      })
     })
   }
   goToUser(userId: any) {

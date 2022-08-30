@@ -43,6 +43,8 @@ export class UserProfileComponent implements OnInit {
         }
         else this.isMyself=false;
       })
+      console.log(String(localStorage.getItem(USER_ID)))
+      console.log(data.id)
       this.subscriptionService.checkSubscription(String(localStorage.getItem(USER_ID)),String(data.id)).subscribe(data=>{
           console.log(data);
         if(data){
