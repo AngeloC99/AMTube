@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {USER_ID} from "../../constants";
-import {Subscription} from "../../model/subscription.model";
-import {SubscriptionService} from "../../services/subscription.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from '@angular/router';
+import { USER_ID } from "../../constants";
+import { Subscription } from "../../model/subscription.model";
+import { SubscriptionService } from "../../services/subscription.service";
 
 @Component({
   selector: 'app-subscriptions',
@@ -12,12 +13,14 @@ import {SubscriptionService} from "../../services/subscription.service";
 export class SubscriptionsComponent implements OnInit {
   mySubscribers: Subscription[] = [];
   mySubscribedTo: Subscription[] = [];
+  mySubscribersReady: Boolean = false;
+  mySubscribedToReady: Boolean = false;
 
-  constructor(private subscriptionService: SubscriptionService, private matSnackBar: MatSnackBar) { }
+  constructor(private subscriptionService: SubscriptionService, private matSnackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
     this.getMySubscribedTo();
-    this.getMySubscriber()
+    this.getMySubscriber();
 
   }
 
@@ -26,6 +29,12 @@ export class SubscriptionsComponent implements OnInit {
     this.subscriptionService.getSubscribedToByUserId(localStorage.getItem(USER_ID)).subscribe(data => {
       this.mySubscribedTo = data;
       console.log(this.mySubscribedTo);
+      this.mySubscribedToReady = true;
+
+    }, ()=>{
+      this.mySubscribedTo = [];
+      this.mySubscribedToReady = true;
+
     })
   }
 
@@ -34,6 +43,11 @@ export class SubscriptionsComponent implements OnInit {
     this.subscriptionService.getSubscribersByUserId(localStorage.getItem(USER_ID)).subscribe(data => {
       this.mySubscribers = data;
       console.log(this.mySubscribers);
+      this.mySubscribersReady = true;
+    }, ()=>{
+      this.mySubscribers = [];
+      this.mySubscribersReady = true;
+
     })
   }
 
@@ -42,5 +56,8 @@ export class SubscriptionsComponent implements OnInit {
       this.matSnackBar.open("Subscription successfully deleted!", "OK");
     })
   }
-
+  goToUser(userId: any) {
+    let id = String(userId);
+    this.router.navigateByUrl("/user-profile/" + id);
+  }
 }

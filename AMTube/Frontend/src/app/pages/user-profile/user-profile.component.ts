@@ -16,6 +16,8 @@ import {Subscription} from "../../model/subscription.model";
 export class UserProfileComponent implements OnInit {
   userReady: boolean = false;
   viewedUser: User;
+  currentUser:User;
+  isMyself:Boolean;
   videos: Video[] = [];
   videosReady: boolean = false;
   subscription: Subscription;
@@ -34,6 +36,13 @@ export class UserProfileComponent implements OnInit {
         console.log(this.videos);
         this.videosReady = true;
       });
+      this.userService.getUserInfo().subscribe(data=>{
+        this.currentUser=data;
+        if (this.currentUser.id==this.viewedUser.id){
+          this.isMyself=true;
+        }
+        else this.isMyself=false;
+      })
       this.subscriptionService.checkSubscription(String(localStorage.getItem(USER_ID)),String(data.id)).subscribe(data=>{
           console.log(data);
         if(data){

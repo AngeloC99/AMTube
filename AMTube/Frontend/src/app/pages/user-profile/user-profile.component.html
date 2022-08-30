@@ -5,8 +5,8 @@
         </div>
         <div class="username">{{viewedUser.username}} </div>
     </div>
-    <button class="buttonSubscribe" *ngIf="!subscribed" (click)="subscribe()">Subscribe</button>
-    <button class="buttonSubscribe" *ngIf="subscribed"(click)="unsubscribe()">Unsubscribe</button>
+    <button class="buttonSubscribe" *ngIf="!subscribed && !isMyself" (click)="subscribe()">Subscribe</button>
+    <button class="buttonSubscribe" *ngIf="subscribed && !isMyself"(click)="unsubscribe()">Unsubscribe</button>
 
 </div>
 <div *ngIf="videosReady">
