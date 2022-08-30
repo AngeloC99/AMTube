@@ -6,6 +6,7 @@ So, download the images from Docker Hub through the command (superuser privilege
 
 ```bash
 docker pull rabbitmq:3-management
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.2
 ```
 
 Then, run the container:

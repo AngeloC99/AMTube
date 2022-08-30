@@ -8,6 +8,7 @@ import AMTube.video.repositories.UserLikeRepository;
 import AMTube.video.repositories.VideoRepository;
 
 import AMTube.video.services.VideoService;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
@@ -84,7 +85,7 @@ public class VideoController {
         }
         List<Comment> comments = this.commentRepository.findByVideoId(videoId);
         List<UserLike> likes = this.userLikeRepository.findByVideoId(videoId);
-        List<Long> ids = new ArrayList<Long>();
+        List<Long> ids = new ArrayList<>();
         for (UserLike like : likes) {
             ids.add(like.getUserId());
         }
@@ -222,4 +223,8 @@ public class VideoController {
         }
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<String> search(@RequestBody String query) throws URISyntaxException, ParseException {
+        return this.videoService.searchOnElastic(query);
+    }
 }
