@@ -99,6 +99,7 @@ export class VideoDetailComponent implements OnInit {
       console.log(data);
       this.videoComments?.unshift(data);
       console.log(this.videoComments);
+      this.newCommentForm.reset();
     })
   }
 

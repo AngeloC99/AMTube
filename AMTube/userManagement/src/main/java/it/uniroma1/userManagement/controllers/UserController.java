@@ -68,7 +68,7 @@ public class UserController {
         if(user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
             u.get().setEmail(user.getEmail());
         }
-        if(user.getPassword() != null && !user.getPassword().trim().isEmpty()) {
+        if(user.getPassword() != null && !user.getPassword().trim().isEmpty() && !user.getPassword().equals(u.get().getPassword())) {
             u.get().setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         }
         userRepository.saveAndFlush(u.get());
