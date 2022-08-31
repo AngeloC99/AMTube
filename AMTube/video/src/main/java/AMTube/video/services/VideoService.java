@@ -158,7 +158,7 @@ public class VideoService {
 
             for (Object internalHit : internalHits) {
                 JSONObject objectInArray = (JSONObject) internalHit;
-                idsToReturn.add((Long) objectInArray.get("_id"));
+                idsToReturn.add(Long.valueOf(objectInArray.get("_id").toString()));
                 logger.info("IDs of videos matched by the search: " + idsToReturn);
             }
 
