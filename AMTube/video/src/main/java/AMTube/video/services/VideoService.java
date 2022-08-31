@@ -4,6 +4,7 @@ import AMTube.video.config.MQConfig;
 import AMTube.video.controllers.VideoController;
 import AMTube.video.models.Video;
 import AMTube.video.models.VideoNotification;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,7 +24,6 @@ import AMTube.video.repositories.VideoRepository;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class VideoService {
@@ -118,7 +118,7 @@ public class VideoService {
         }
     }
 
-    public ResponseEntity<String> searchOnElastic(String query) throws URISyntaxException, ParseException {
+    public ResponseEntity<ArrayList<Video>> searchOnElastic(String query) throws URISyntaxException, ParseException {
         logger.info("Sending query to ElasticSearch...");
 
         // ElasticSearch container on localhost:9200
@@ -150,11 +150,37 @@ public class VideoService {
         ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(factory);
         try {
-            return restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
+            JSONObject jsonResponse = this.parseHttpResponse(response);
+            JSONObject hits = (JSONObject) jsonResponse.get("hits");
+            JSONArray internalHits = (JSONArray) hits.get("hits");
+            ArrayList<Long> idsToReturn = new ArrayList<>();
+
+            for (Object internalHit : internalHits) {
+                JSONObject objectInArray = (JSONObject) internalHit;
+                idsToReturn.add((Long) objectInArray.get("_id"));
+                logger.info("IDs of videos matched by the search: " + idsToReturn);
+            }
+
+            return ResponseEntity.status(200).body(this.getVideosFromSearch(idsToReturn));
+
         } catch (HttpStatusCodeException e) {
             logger.error(e.getMessage());
             return ResponseEntity.notFound().build();
         }
+    }
+
+    public JSONObject parseHttpResponse(ResponseEntity<String> response) throws ParseException {
+        Object obj = new JSONParser().parse(response.getBody());
+        return (JSONObject) obj;
+    }
+
+    public ArrayList<Video> getVideosFromSearch(ArrayList<Long> idsToReturn) {
+        ArrayList<Video> videosToReturn = new ArrayList<>();
+        for (Long id : idsToReturn) {
+            videosToReturn.add(this.videoRepository.findById(id).get());
+        }
+        return videosToReturn;
     }
 
 }

@@ -224,7 +224,7 @@ public class VideoController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<String> search(@RequestBody String query) throws URISyntaxException, ParseException {
+    public ResponseEntity<ArrayList<Video>> search(@RequestBody String query) throws URISyntaxException, ParseException {
         return this.videoService.searchOnElastic(query);
     }
 }
