@@ -20,7 +20,7 @@ To run the project, the requirements are the following:
 ## Running The Project
 Go in the AMTube directory and run the following command:
 ```bash
-docker compose up --build -d
+docker-compose up --build -d
 ```
 To check the containers that are running, type:
 ```bash

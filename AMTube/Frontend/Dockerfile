@@ -9,6 +9,7 @@ RUN npm run build
 # Stage 2: website hosting by nginx
 FROM nginx:alpine
 
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 EXPOSE 80
 # By default, nginx connects to port 80.

@@ -1,0 +1,86 @@
+version: "3"
+services:
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - backend
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    container_name: elasticsearch
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+    networks:
+      - backend
+    environment:
+      - discovery.type=single-node
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.host=0.0.0.0
+      - http.port=9200
+
+  api-gateway:
+    image: api-gateway-docker
+    container_name: api-gateway-docker
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
+      - frontend
+
+  user-management:
+    image: user-management-docker
+    container_name: user-management-docker
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+  notification:
+    image: notification-docker
+    container_name: notification-docker
+    depends_on:
+      - rabbit
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+
+  video:
+    image: video-docker
+    container_name: video-docker
+    depends_on:
+      - rabbit
+      - elasticsearch
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    networks:
+      - backend
+
+  frontend:
+    image: frontend-docker
+    container_name: frontend-docker
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    networks:
+      - frontend
+
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
