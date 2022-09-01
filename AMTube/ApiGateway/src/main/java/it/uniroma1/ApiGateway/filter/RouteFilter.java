@@ -11,7 +11,7 @@ import com.netflix.zuul.context.RequestContext;
 
 @Component
 public class RouteFilter extends ZuulFilter {
-	private static Logger log = LoggerFactory.getLogger(RouteFilter.class);
+	private final Logger log = LoggerFactory.getLogger(RouteFilter.class);
 
 	@Override
 	public String filterType() {

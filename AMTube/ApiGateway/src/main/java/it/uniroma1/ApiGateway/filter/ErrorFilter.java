@@ -11,7 +11,7 @@ import com.netflix.zuul.context.RequestContext;
 
 @Component
 public class ErrorFilter extends ZuulFilter {
-	private static Logger log = LoggerFactory.getLogger(PostFilter.class);
+	private final Logger log = LoggerFactory.getLogger(PostFilter.class);
 
 	  @Override
 	  public String filterType() {

@@ -13,7 +13,7 @@ docker build -t frontend-docker .
 ### To run the container
 
 ```bash
-docker run -d -p 4200:80 frontend-docker
+docker run -d -p 4200:4200 frontend-docker
 ```
 
 ## Development server

@@ -21,7 +21,7 @@ import java.util.Objects;
 
 @Component
 public class PreFilter extends ZuulFilter {
-	private static Logger log = LoggerFactory.getLogger(PreFilter.class);
+	private final Logger log = LoggerFactory.getLogger(PreFilter.class);
 	private final VerificationService verificationService;
 
 	public PreFilter(VerificationService verificationService) {
