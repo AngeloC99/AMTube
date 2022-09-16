@@ -1,5 +1,5 @@
 # AMTube
-Project for the Laboratory of Advanced Programming exam, Engineering in Computer Science (2021-22) - Sapienza, University of Rome.
+Project for the Laboratory of Advanced Programming exam, Engineering in Computer Science (A.Y. 2021-22) - Sapienza, University of Rome.
 ## About The Project
 <img align="right" alt="AMTube_logo" src="./Documentation/assets/logo_amtube-nobg.png" width=40% height=auto>
 AMTube is a web-app where users can publish videos to share content with other users.
